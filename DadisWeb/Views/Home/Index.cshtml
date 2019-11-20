@@ -1,0 +1,86 @@
+﻿@using System.Configuration
+@using CloudinaryDotNet
+@{
+    string cors_location = (new UriBuilder(Request.Url.AbsoluteUri)
+    { Path = Url.Content("~/Content/cloudinary_cors.html") }).ToString();
+
+    Account account = new Account(ConfigurationManager.AppSettings["CloudName"].ToString(), ConfigurationManager.AppSettings["CloudApiKey"].ToString(), ConfigurationManager.AppSettings["CloudApiSecret"].ToString());
+
+    Cloudinary cloudinary = new Cloudinary(account);
+}
+
+<div id="divUsuarios" class="row marginTopBody">
+    <div class="row bannerUsuarios">
+        <div class="col-xs-4">
+            <p ng-if="ParametroBusqueda == '' || ParametroBusqueda == null"><h3>Usuarios nuevos</h3></p>
+        </div>
+        <div class="col-xs-8">
+            @*<div class="btn btn-default alignRight" style="float:right" ng-click="BuscarUsuarios()">Buscar</div>*@
+            <input type="text" class="alignRight" enter-Buscar-Usuario="BuscarUsuarios()" placeholder="Buscar" ng-model="ParametroBusqueda" />
+        </div>
+        <hr />
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-2 clickable centrado" ng-repeat="usuario in Usuarios" ng-click="MostrarUsuario(usuario.Id)">
+                    <img alt="persona" src="~/Content/images/person.jpg" class="photo" />
+                    <p>{{usuario.Nombres}} {{usuario.ApellidoPrimero}}</p>
+                </div>
+            </div>
+            <hr />
+            @*<div>
+                @cloudinary.Api.BuildUploadForm("image_id", "auto",
+                   new SortedDictionary<string, object>()
+                   {
+                     { "callback", cors_location },
+                     { "tags", "directly_uploaded" },
+                     { "crop", "limit" },
+                     { "width", 1000 },
+                     { "height", 1000 },
+                     { "eager", new Dictionary<string,object>()
+                       {{ "crop","fill" }, { "width",150 }, { "height", 100 } }}
+                   },
+                   new Dictionary<string, string>() { { "style", "margin-top: 30px" } })
+            </div>*@
+        </div>
+    </div>
+</div>
+<div id="divMenu" class="row">
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <div id="divOpcionForo" class="opcionPrincipal well-primary">
+            <h2>Foro de la comunidad</h2>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-3">
+        <div id="divOpcionPlanes" class="opcionPrincipal well-info">
+            <h2>Planes y quedadas</h2>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-3">
+        <div id="divOpcionContratacion" class="opcionPrincipal well-danger">
+            <h2>Contrataciones en grupo</h2>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-3">
+        <div id="divOpcionCompras" class="opcionPrincipal well-success">
+            <h2>Compra/Alquiler de accesorios</h2>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('.cloudinary-fileupload').bind('cloudinarydone', function (e, data) {
+        $('.preview').html(
+            $.cloudinary.image(data.result.public_id,
+                {
+                    format: data.result.format, version: data.result.version,
+                    crop: 'fill', width: 150, height: 100
+                })
+        );
+        $('.image_public_id').val(data.result.public_id);
+        return true;
+    });
+    $('.cloudinary-fileupload').bind('fileuploadprogress', function (e, data) {
+        $('.progress_bar').css('width', Math.round((data.loaded * 100.0) / data.total) + '%');
+    });
+</script>

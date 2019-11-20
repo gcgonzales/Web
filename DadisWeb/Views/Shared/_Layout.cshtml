@@ -1,0 +1,94 @@
+﻿
+
+@using System.Configuration
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dadis - La red social para padres</title>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/cloudinary")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.cloudinary.config("cloud_name", "@ConfigurationManager.AppSettings["CloudName"].ToString()");
+
+            if ($.fn.cloudinary_fileupload !== undefined) {
+                $("input.cloudinary-fileupload[type=file]").cloudinary_fileupload();
+            }
+        });
+    </script>
+
+  
+</head>
+
+
+
+<body ng-app="daddiApp" ng-controller="daddiController" data-ng-init="ObtenerUsuarioLogado(@ViewBag.IdUsuario)">
+    <div class="navbar cabecera navbar-fixed-top">
+        <div class="header container">
+            <div class="row">
+                <div class="col-xs-9">
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <h1>
+                                @Html.ActionLink("Dadis", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                            </h1>
+                        </div>
+                        <div class="col-xs-2" style="text-align:center;">
+                            <img alt="persona" src="~/Content/images/person.jpg" class="photoLogado" />
+                        </div>
+                        <div class="col-xs-7">
+                            <h3 ng-if="DatosUsuarioLogado.Id != 0">Hola {{ DatosUsuarioLogado.Nombres }}!</h3>
+                        </div>
+                    </div>
+                 </div>
+                <div class="col-xs-3">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav alignRight">
+                            <li><div class="btn btn-default" ng-if="DatosUsuarioLogado.Id != 0" ng-click="MostrarUsuario(DatosUsuarioLogado.Id)">Editar datos</div></li>
+                            <li><div class="btn btn-danger" ng-if="DatosUsuarioLogado.Id != 0">Cerrar sesión</div></li>
+                            <li><div class="btn btn-info" ng-if="DatosUsuarioLogado.Id == 0" ng-click="AbrirLogin()">Login</div></li>
+                            <li><div class="btn btn-primary" ng-if="DatosUsuarioLogado.Id == 0" ng-click="Registrarse()">Registrarse</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            
+        </div>
+       
+    </div>
+    <div class="container body-content">
+
+        @RenderBody()
+
+        @Html.Partial("_Usuario")
+        @Html.Partial("_Login")
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+        </footer>
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>

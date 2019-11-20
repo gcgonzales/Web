@@ -1,0 +1,43 @@
+﻿
+<div id="divLogin" class="modal modalLogin">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="btn btn-warning alignRight" ng-click="CerrarLogin()">Cerrar</div>
+        </div>
+    </div>
+    <div class="row subrayado">
+        <div class="col-xs-12"><h2>Ingresa tu usuario y contraseña</h2> </div>
+    </div>
+
+    <div class="row cajaLogin">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-3">
+                    <h3>Usuario:</h3>
+                </div>
+                <div class="col-xs-9">
+                    <input ng-model="DatosUsuarioLogado.Login" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    <h3>Contraseña:</h3>
+                </div>
+                <div class="col-xs-9">
+                    <input type="password" ng-model="DatosUsuarioLogado.Password" />
+                </div>
+            </div>
+            <div class="row cajaLoginBotones">
+                <div class="col-xs-12">
+                    <div class="btn btn-danger">Olvidé mi contraseña</div>
+                    <div class="btn btn-info" ng-click="Autenticarse()">Acceder</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{DatosUsuarioLogado.IncidenciaUsuario}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
