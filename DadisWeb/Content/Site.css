@@ -20,7 +20,9 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .marginTopBody {
@@ -153,6 +155,11 @@ margin-right: auto !important;
 
 }
 
+.modalMensajeForo {
+    width: 90%;
+    height: 500px;
+}
+
 .modalLogin {
     width: 60%;
     height: 380px;
@@ -249,3 +256,4 @@ h3 {
 .icon-bar {
 background-color:white !important;
 }
+ 

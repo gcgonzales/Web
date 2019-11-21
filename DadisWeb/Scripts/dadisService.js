@@ -68,7 +68,6 @@ function GetUsuarios(param) {
 
 function GuardarUsuario(param) {
 
-
     var urlBase = GetUrlBase();
     var resultado = {};
     url = urlBase + "Usuarios/Guardar";
@@ -133,6 +132,80 @@ function GetUrlBase() {
         resultado = result;
     }
         );
+
+    return resultado;
+}
+
+
+function GetMensajesPrincipalesForo(param) {
+
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Foro/GetMensajesPrincipales";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: { textoBusqueda: param },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false
+    }).done(function (result) {
+        resultado = JSON.parse(JSON.stringify(result));
+    }
+    );
+
+    return resultado;
+}
+
+function GuardarMensajeForo(param) {
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Foro/Guardar";
+    var dataParam = JSON.stringify(param);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: dataParam,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
+
+
+function GuardarDatosSesion(idParam) {
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Home/GuardarSesion";
+    
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {Id: idParam },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+
+    }
+    ).fail(function () { });
 
     return resultado;
 }

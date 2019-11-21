@@ -24,8 +24,8 @@ app.directive('enterBuscarUsuario', function () {
 app.controller("daddiController", function ($scope) {
 
     $scope.Edicion = false;
-    $('#divUsuario').modal('hide');
-    
+    $scope.EdicionForo = false;
+   
     $scope.ObtenerUsuarioLogado = function (id) {
         var usuario = GetUsuario(id);
 
@@ -132,17 +132,58 @@ app.controller("daddiController", function ($scope) {
 
     $scope.GuardarUsuario = function () {
 
-        $scope.DatosUsuario.IdUsuarioAlta = 1;
+        $scope.DatosUsuario.IdUsuarioAlta = $scope.DatosUsuarioLogado.Id;
         GuardarUsuario($scope.DatosUsuario);
       
         $('#divUsuario').modal('hide');
         $scope.Edicion = false;
         $scope.BuscarUsuarios();
     };
-
     $scope.CerrarUsuario = function () {
         $('#divUsuario').modal('hide');
     };
+    $scope.AltaMensajeForo = function () {
+        $scope.MensajeForo = {};
+        $scope.MensajeForo.Id = 0;
+        $scope.EdicionForo = true;
+        $('#divMensajeForo').modal('show');
+    };
+
+
+
+
+    $scope.BuscarMensajesForo = function () {
+
+        var parametro = $scope.ParametroBusqueda;
+
+        if (parametro === null || parametro === undefined) { parametro = ""; }
+
+        var mensajesForo = GetMensajesPrincipalesForo(parametro);
+
+        $scope.MensajesForo = [];
+
+        $.each(mensajesForo, function (x, y) {
+            $scope.MensajesForo.push(y);
+        });
+
+    };
+    $scope.CerrarUsuario = function () {
+        $('#divMensajeForo').modal('hide');
+    };
+
+    $scope.GuardarMensajeForo = function () {
+
+        $scope.MensajeForo.IdUsuarioAlta = $scope.DatosUsuarioLogado.Id;
+        GuardarMensajeForo($scope.MensajeForo);
+
+        $('#divMensajeForo').modal('hide');
+        $scope.EdicionForo = false;
+        $scope.BuscarMensajesForo();
+    };
+    $scope.CerrarMensajeForo = function () {
+        $('#divMensajeForo').modal('hide');
+    };
+   
 
     $scope.BajaSeleccionados = function () {
 
@@ -159,6 +200,9 @@ app.controller("daddiController", function ($scope) {
         BajaUsuarios(ids);
         $scope.BuscarUsuarios();
     };
+
+
+     
 
     if ($scope.ParametroBusqueda === null || $scope.ParametroBusqueda === undefined || $scope.ParametroBusqueda === "") {
        // $scope.BuscarUsuarios("");
