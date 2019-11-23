@@ -33,7 +33,7 @@
 
 
 
-<body ng-app="daddiApp" ng-controller="daddiController" data-ng-init="ObtenerUsuarioLogado(@ViewBag.IdUsuario)">
+<body ng-app="daddiApp" ng-controller="daddiController">
     <div class="navbar cabecera navbar-fixed-top">
         <div class="header container">
             <div class="row">
@@ -48,7 +48,7 @@
                             <img alt="persona" src="~/Content/images/person.jpg" class="photoLogado" />
                         </div>
                         <div class="col-xs-7">
-                            <h3 ng-if="DatosUsuarioLogado.Id != 0">Hola {{ DatosUsuarioLogado.Nombres }}!</h3>
+                            <h3 ng-if="DatosUsuarioLogado.Id !== 0">Hola {{ DatosUsuarioLogado.Nombres }}!</h3>
                         </div>
                     </div>
                  </div>
@@ -60,10 +60,10 @@
                     </button>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav alignRight">
-                            <li><div class="btn btn-default" ng-if="DatosUsuarioLogado.Id != 0" ng-click="MostrarUsuario(DatosUsuarioLogado.Id)">Editar datos</div></li>
-                            <li><div class="btn btn-danger" ng-if="DatosUsuarioLogado.Id != 0">Cerrar sesión</div></li>
-                            <li><div class="btn btn-info" ng-if="DatosUsuarioLogado.Id == 0" ng-click="AbrirLogin()">Login</div></li>
-                            <li><div class="btn btn-primary" ng-if="DatosUsuarioLogado.Id == 0" ng-click="Registrarse()">Registrarse</div></li>
+                            <li><div class="btn btn-default" ng-if="DatosUsuarioLogado.Id !== 0" ng-click="MostrarUsuario(DatosUsuarioLogado.Id)">Editar datos</div></li>
+                            <li><div class="btn btn-danger" ng-if="DatosUsuarioLogado.Id !== 0" ng-click="CerrarSesion()">Cerrar sesión</div></li>
+                            <li><div class="btn btn-info" ng-if="DatosUsuarioLogado.Id === 0" ng-click="AbrirLogin()">Login</div></li>
+                            <li><div class="btn btn-primary" ng-if="DatosUsuarioLogado.Id === 0" ng-click="Registrarse()">Registrarse</div></li>
                         </ul>
                     </div>
                 </div>

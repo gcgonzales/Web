@@ -185,16 +185,16 @@ function GuardarMensajeForo(param) {
 }
 
 
-function GuardarDatosSesion(idParam) {
+function GuardarDatosSesion(idParam, passwordParam, nombre, hashkey) {
 
-    var urlBase = GetUrlBase();
+       
     var resultado = {};
-    url = urlBase + "Home/GuardarSesion";
+    url = "/Home/GuardarDatosSesion";
     
     $.ajax({
         type: "POST",
         url: url,
-        data: {Id: idParam },
+        data: JSON.stringify({Id: idParam, Password: passwordParam, Nombre: nombre, HashKey: hashkey }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false,
@@ -204,6 +204,57 @@ function GuardarDatosSesion(idParam) {
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
 
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
+
+function GetDatosSesion() {
+
+     
+    var resultado = {};
+    url = "/Home/GetDatosSesion";
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: { },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+        resultado = JSON.parse(JSON.stringify(result));
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
+
+
+function GetAdminKey() {
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Usuarios/GetAdminKey";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {},
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+        resultado = result;
     }
     ).fail(function () { });
 

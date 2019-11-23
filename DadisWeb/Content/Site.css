@@ -187,6 +187,7 @@ hr {
     margin: 0;
     height: 2px;
     background-color: #7cbb00;
+    width:100%;
 }
 
 img {
@@ -249,6 +250,15 @@ h3 {
     font-size: 20px;
 }
 
+h4 {
+    font-size: 16px;
+}
+
+
+h5 {
+font-size:12px;
+}
+
 .navbar-toggle {
     background-color: #7cbb00 !important;
 }
@@ -256,4 +266,33 @@ h3 {
 .icon-bar {
 background-color:white !important;
 }
- 
+
+.TemaForo {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.backGroundForo1 {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    background-color: #7cbb00;
+    color: #ffffff;
+    margin-bottom:0px;
+}
+
+.cuerpoTemaForo {
+    border: 1px solid #7cbb00;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.inputNoBorder {
+    /*border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;*/
+    border: 0;
+}
+
+input:read-only{
+    border:0;
+}

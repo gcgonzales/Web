@@ -10,25 +10,25 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-sm-6" ng-repeat="mensajeForo in MensajesForo">
-                <div class="row">
-                    <div class="col-xs-1 filaListaUsuario">
+            <div class="col-xs-12 col-sm-6 TemaForo" ng-repeat="mensajeForo in MensajesForo">
+                <div class="row backGroundForo1">
+                    <div class="col-xs-1">
                         <input type="checkbox" ng-model="mensajeForo.Seleccionado" />
                     </div>
-                    <div class="col-xs-11 filaListaUsuario">
-                        {{mensajeForoTitulo}}
+                    <div class="col-xs-11">
+                        <h2>{{mensajeForo.Titulo}}</h2>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-6 filaListaUsuario">Autor: {{mensajeForo.Autor}} </div>
-                    <div class="col-xs-6 filaListaUsuario">Creado: {{mensajeForo.FechaAlta}}</div>
-                </div>
-                <div class="row">
+                <div class="row cuerpoTemaForo">
+                    <div class="col-xs-6"><h4> Autor: {{mensajeForo.Autor}} </h4></div>
+                    <div class="col-xs-6"><h4> Creado: {{mensajeForo.FechaAlta}}</h4></div>
+                @*</div>
+                <div class="row">*@
                     <div class="col-xs-6">
-                        Ultima Respuesta: {{mensajeForo.UltimoAutor }}
+                        <h5>  Ultima Resp: {{mensajeForo.UltimoAutor }} </h5>
                     </div>
                     <div class="col-xs-6">
-                        Fecha: {{mensajeForo.FechaUltimaContestacion }}
+                        <h5> Fecha: {{mensajeForo.FechaUltimaContestacion }}</h5>
                     </div>
                 </div>
             </div>

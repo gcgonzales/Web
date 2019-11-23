@@ -4,6 +4,9 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Security.Cryptography;
+using System.Text;
+using DadisWeb.Models;
 
 namespace DadisWeb.Controllers
 {
@@ -36,6 +39,55 @@ namespace DadisWeb.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult GuardarDatosSesion(int Id, string Password, string Nombre, string HashKey)
+        {
+            string HashPassword = MD5Hash(Password);
+
+            Credenciales credenciales = new Credenciales();
+            credenciales.Id = Id;
+            credenciales.Nombre = Nombre;
+            credenciales.Password = Password;
+            credenciales.HashKey = HashKey;
+
+            Session["Credenciales"] = credenciales;
+
+            return Json("Ok", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetDatosSesion()
+        {
+            Credenciales resultado = new Credenciales();
+
+            if (Session["Credenciales"] != null) {
+                resultado = (Credenciales)Session["Credenciales"];
+            }
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        public string MD5Hash(string text)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+
+            //compute hash from the bytes of text  
+            md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(text));
+
+            //get hash result after compute it  
+            byte[] result = md5.Hash;
+
+            StringBuilder strBuilder = new StringBuilder();
+            for (int i = 0; i < result.Length; i++)
+            {
+                //change it into 2 hexadecimal digits  
+                //for each byte  
+                strBuilder.Append(result[i].ToString("x2"));
+            }
+
+            return strBuilder.ToString();
         }
     }
 }

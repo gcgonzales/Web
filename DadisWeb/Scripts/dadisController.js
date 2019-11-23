@@ -21,26 +21,26 @@ app.directive('enterBuscarUsuario', function () {
     };
 });
 
+ 
+
 app.controller("daddiController", function ($scope) {
+
+  
+    $scope.DatosUsuario = {};
+    $scope.DatosUsuario.Id = 0;
+    $scope.DatosUsuarioLogado = {};
+    $scope.DatosUsuarioLogado.Id = 0;
+
+
+    //$rootScope.$on('$routeChangeStart', function (event, next, current) {
+    //    if (!current) {
+          
+    //    }
+    //});
 
     $scope.Edicion = false;
     $scope.EdicionForo = false;
    
-    $scope.ObtenerUsuarioLogado = function (id) {
-        var usuario = GetUsuario(id);
-
-        $scope.DatosUsuarioLogado = {};
-        $scope.DatosUsuarioLogado.Id = usuario.Id;
-        $scope.DatosUsuarioLogado.Nombres = usuario.Nombres;
-        $scope.DatosUsuarioLogado.ApellidoPrimero = usuario.ApellidoPrimero;
-        $scope.DatosUsuarioLogado.ApellidoSegundo = usuario.ApellidoSegundo;
-        if (usuario.Fotos !== undefined && usuario.Fotos !== null && usuario.Fotos.Length > 0) {
-            $scope.DatosUsuarioLogado.RutaImagenPrincipal = usuario.Fotos[0].NombreFichero + usuario.Fotos[0].Extension;
-        }
-
-       
-    };
-
     $scope.MostrarUsuario = function (id) {
 
         var usuario = GetUsuario(id);
@@ -56,6 +56,10 @@ app.controller("daddiController", function ($scope) {
         if (usuario.Fotos !== undefined && usuario.Fotos !== null && usuario.Fotos.Length > 0)
         {
             $scope.DatosUsuario.RutaImagenPrincipal = usuario.Fotos[0].NombreFichero + usuario.Fotos[0].Extension;
+        }
+
+        if ($scope.DatosUsuario.Id === $scope.DatosUsuarioLogado.Id) {
+            $scope.Edicion = true;
         }
         
         $('#divUsuario').modal('show');
@@ -107,13 +111,20 @@ app.controller("daddiController", function ($scope) {
     };
 
     $scope.Autenticarse = function () {
+        var password = $scope.DatosUsuarioLogado.Password;
         var usuarioLogin = GetUsuarioAutenticado($scope.DatosUsuarioLogado.Login, $scope.DatosUsuarioLogado.Password);
         $scope.DatosUsuarioLogado = usuarioLogin;
 
         if (usuarioLogin.Id !== 0) {
+            GuardarDatosSesion($scope.DatosUsuarioLogado.Id, password, $scope.DatosUsuarioLogado.Nombres, $scope.DatosUsuarioLogado.HashKey);
             $scope.CerrarLogin();
         }
+    };
 
+    $scope.CerrarSesion = function () {
+        $scope.DatosUsuarioLogado = {};
+        $scope.DatosUsuarioLogado.Id = 0;
+        GuardarDatosSesion(0, "","","");
     };
 
     $scope.Registrarse = function () {
@@ -168,7 +179,7 @@ app.controller("daddiController", function ($scope) {
 
     };
     $scope.CerrarUsuario = function () {
-        $('#divMensajeForo').modal('hide');
+        $('#divUsuario').modal('hide');
     };
 
     $scope.GuardarMensajeForo = function () {
@@ -201,8 +212,23 @@ app.controller("daddiController", function ($scope) {
         $scope.BuscarUsuarios();
     };
 
+    $scope.AdminKey = function () {
+        var resultado = GetAdminKey();
+        return resultado;
+    };
 
-     
+
+    $scope.Editable = function () {
+        var editable = false;
+        if ($scope.DatosUsuarioLogado !== undefined && $scope.DatosUsuarioLogado.HashKey === $scope.AdminKey()) {
+            editable = true;
+        }
+        else if ($scope.DatosUsuario !== undefined && $scope.DatosUsuarioLogado.Id === $scope.DatosUsuario.Id) {
+            editable = true;
+        }
+
+        return editable;
+    };
 
     if ($scope.ParametroBusqueda === null || $scope.ParametroBusqueda === undefined || $scope.ParametroBusqueda === "") {
        // $scope.BuscarUsuarios("");
@@ -213,6 +239,16 @@ app.controller("daddiController", function ($scope) {
         $.each(usuarios, function (x, y) {
             $scope.Usuarios.push(y);
         }); 
+    }
+
+    var credencialesActuales = GetDatosSesion();
+
+    if (credencialesActuales !== undefined && credencialesActuales !== null && credencialesActuales.Id !== "0" && credencialesActuales.Id !== 0) {
+        $scope.DatosUsuarioLogado = {};
+        $scope.DatosUsuarioLogado.Id = credencialesActuales.Id;
+        $scope.DatosUsuarioLogado.Nombres = credencialesActuales.Nombre;
+        $scope.DatosUsuarioLogado.Password = credencialesActuales.Password;
+        $scope.DatosUsuarioLogado.HashKey = credencialesActuales.HashKey;
     }
 
 });
