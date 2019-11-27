@@ -46,7 +46,6 @@ function GetUsuarioAutenticado(paramLogin, paramPassword) {
 
 function GetUsuarios(param) {
 
-
     var urlBase = GetUrlBase();
     var resultado = {};
     url = urlBase + "Usuarios/GetListaUsuarios";
@@ -62,6 +61,33 @@ function GetUsuarios(param) {
         resultado = JSON.parse(JSON.stringify(result));
     }
     );
+
+    return resultado;
+}
+
+
+function ReiniciarPassword(emailParam) {
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Usuarios/ReiniciarPassword?email=" + emailParam;
+
+    var emailBusqueda = emailParam;
+    
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: { email: emailBusqueda },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    }).done(function (result) {
+        resultado = JSON.parse(JSON.stringify(result));
+    }
+    ).fail(function () { });
 
     return resultado;
 }
@@ -148,6 +174,51 @@ function GetMensajesPrincipalesForo(param) {
         type: "GET",
         url: url,
         data: { textoBusqueda: param },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false
+    }).done(function (result) {
+        resultado = JSON.parse(JSON.stringify(result));
+    }
+    );
+
+    return resultado;
+}
+
+function GetMensajeForo(idParam) {
+
+    var idMensaje = idParam;
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Foro/GetMensaje";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: { id: idMensaje },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false
+    }).done(function (result) {
+        resultado = JSON.parse(JSON.stringify(result));
+    }
+    );
+
+    return resultado;
+}
+
+
+function GetHiloTema(idParam) {
+
+    var idMensaje = idParam;
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Foro/GetHiloTema";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: { idMensajePadre: idMensaje },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false

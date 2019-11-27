@@ -6,16 +6,22 @@
         </div>
     </div>
 
-    <div ng-if="MensajeForo.Id == 0" class="row subrayado">
+    @*<div ng-if="MensajeForo.Id == 0" class="row subrayado">
         <div class="col-xs-12"><h2>Mensaje</h2> </div>
     </div>
 
-    <div ng-if="DatosUsuario.Id != 0" class="row">
+    <div ng-if="MensajeForo.IdMensajePadre != 0" class="row">
         <div class="col-xs-12"><h3>Tema: {{ MensajeForo.TituloPadre }} </h3> </div>
-    </div>
+    </div>*@
 
 
-    <div class="row">
+    @*<div class="row">
+        <div ng-if="MensajeForo.Id !== 0" class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-4">Creado:</div>
+                <div class="col-xs-8"> {{MensajeForo.FechaAlta}}</div>
+            </div>
+        </div>
         <div class="col-xs-12">
             <div class="row">
                 <div class="col-xs-4">Titulo:</div>
@@ -25,18 +31,74 @@
         <div class="col-xs-12">
             <div class="row">
                 <div class="col-xs-4">Mensaje:</div>
-                <div class="col-xs-8"><textarea type="text" ng-model="MensajeForo.Mensaje" ></textarea></div>
+                <div class="col-xs-8"><textarea type="text" ng-model="MensajeForo.Mensaje"></textarea></div>
+            </div>
+        </div>
+    </div>*@
+
+    <div class="row hiloForo">
+        <div class="col-xs-12 TemaForo" ng-repeat="hiloMensajes in Hilo">
+            <div class="row backGroundForo1">
+                <div class="col-xs-1">
+                    <input type="checkbox" ng-model="hiloMensajes.Seleccionado" />
+                </div>
+                <div class="col-xs-11">
+                    <input type="text" ng-readonly="hiloMensajes.Editando == false" ng-model="hiloMensajes.Titulo" /> 
+                </div>
+            </div>
+            <div class="row cuerpoTemaForo">
+                <div class="col-xs-6"><h5> Autor: {{hiloMensajes.Autor}} </h5></div>
+                <div class="col-xs-6"><h5> Creado: {{hiloMensajes.FechaAlta}}</h5></div>
+                <div class="col-xs-12"><textarea ng-readonly="hiloMensajes.Editando == false" type="text" class="textAreaForo" ng-model="hiloMensajes.Mensaje"></textarea> </div>
+                <div class="col-xs-12" ng-if="hiloMensajes.Editando == false">
+                    <a href="#" class="btn btn-danger btn-xs alignRight">
+                        <span class="glyphicon glyphicon-erase"></span> Eliminar
+                    </a>
+                    <a href="#" class="btn btn-primary btn-xs alignRight" ng-click="ActivarEdicionMensajeForo(hiloMensajes.Id)">
+                        <span class="glyphicon glyphicon-edit"></span> Editar
+                    </a>
+                </div>
+                <div class="col-xs-12" ng-if="hiloMensajes.Editando == true">
+                    <a href="#" class="btn btn-danger btn-xs alignRight" ng-click="CancelarEdicionMensajeForo()">
+                        <span class="glyphicon glyphicon-erase"></span> Cancelar
+                    </a>
+                    <a href="#" class="btn btn-primary btn-xs alignRight" ng-click="GuardarEdicionMensajeForo()">
+                        <span class="glyphicon glyphicon-edit"></span> Guardar
+                    </a>
+                </div>
+            
             </div>
         </div>
     </div>
-    <div class="row" ng-if="EdicionForo==true">
-        <div class="col-xs-12">
-            <div class="btn btn-primary alignRight" ng-click="GuardarMensajeForo()">Guardar</div>
+
+   
+    <div class="row" @*ng-if="DatosUsuario.Id != 0"*@>
+        <div class="col-xs-12 subrayado" ng-if="MensajeForo.Respondiendo==true">
+            <h2>Contestación a mensaje</h2>
         </div>
-    </div>
-    <div class="row" ng-if="DatosUsuario.Id != 0 && EdicionForo==false">
-        <div class="col-xs-12">
-            <div class="btn btn-primary alignRight" ng-click="ContestarMensaje()">Contestar</div>
+        <div class="col-xs-12" ng-if="MensajeForo.Respondiendo==true">
+            <div class="row">
+                <div class="col-xs-4">Titulo:</div>
+                <div class="col-xs-8"> <input type="text" ng-model="MensajeForo.Titulo" /></div>
+            </div>
+        </div>
+        <div class="col-xs-12" ng-if="MensajeForo.Respondiendo==true">
+            <div class="row">
+                <div class="col-xs-4">Mensaje:</div>
+                <div class="col-xs-8"><textarea type="text" ng-model="MensajeForo.Mensaje"></textarea></div>
+            </div>
+        </div>
+        <div class="col-xs-12" ng-if="MensajeForo.Respondiendo==true">
+            <a href="#" class="btn btn-danger btn-sm alignRight" ng-click="CancelarContestacionMensajeForo()">
+                <span class="glyphicon glyphicon-erase"></span> Cancelar
+            </a>
+            <a href="#" class="btn btn-primary btn-sm alignRight" ng-click="GuardarContestacionMensajeForo()">
+                <span class="glyphicon glyphicon-edit"></span> Guardar
+            </a>
+            <input type="hidden" ng-model="MensajeForo.IdMensajePadre" />
+        </div>
+        <div class="col-xs-12" ng-if="MensajeForo.Respondiendo==false">
+            <div class="btn btn-primary alignRight" ng-click="ContestarMensaje()">Responder mensaje</div>
         </div>
     </div>
 </div>

@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-sm-6 TemaForo" ng-repeat="mensajeForo in MensajesForo">
+            <div class="col-xs-12 col-sm-6 TemaForo" ng-repeat="mensajeForo in MensajesForo" ng-click="GetHiloTema(mensajeForo.Id)">
                 <div class="row backGroundForo1">
                     <div class="col-xs-1">
                         <input type="checkbox" ng-model="mensajeForo.Seleccionado" />

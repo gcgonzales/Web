@@ -20,7 +20,7 @@
 input,
 select,
 textarea {
-    width: 95%;
+    width: 99%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -270,6 +270,7 @@ background-color:white !important;
 .TemaForo {
     padding-left: 30px;
     padding-right: 30px;
+    cursor:pointer;
 }
 
 .backGroundForo1 {
@@ -278,6 +279,12 @@ background-color:white !important;
     background-color: #7cbb00;
     color: #ffffff;
     margin-bottom:0px;
+}
+
+.backGroundForo1 input:read-only {
+    background-color: #7cbb00;
+    color: #ffffff; 
+    border: 0;
 }
 
 .cuerpoTemaForo {
@@ -293,6 +300,21 @@ background-color:white !important;
     border: 0;
 }
 
+input {
+background-color:white;
+color:black;
+border: 1px solid black;
+}
+
 input:read-only{
     border:0;
+}
+
+.hiloForo {
+overflow-y:auto;
+height:70%;
+}
+
+.textAreaForo:read-only {
+    border: 0;
 }

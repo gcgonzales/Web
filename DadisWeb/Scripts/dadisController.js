@@ -121,6 +121,30 @@ app.controller("daddiController", function ($scope) {
         }
     };
 
+
+    $scope.AbrirReinicioPassword = function () {
+        $('#divLogin').modal('hide');
+        $('#divReiniciarPassword').modal('show');
+    };
+
+
+
+    $scope.SolicitarReiniciar = function () {
+        
+        var usuario = ReiniciarPassword($scope.DatosUsuario.Email);
+
+        if (usuario.IncidenciaUsuario !== undefined && usuario.IncidenciaUsuario !== "") {
+            $scope.DatosUsuarioLogado.IncidenciaUsuario = usuario.IncidenciaUsuario;
+        }
+        else {
+            $scope.CerrarReiniciarPassword();
+        }
+    };
+
+    $scope.CerrarReiniciarPassword = function () {
+        $('#divReiniciarPassword').modal('hide');
+    };
+
     $scope.CerrarSesion = function () {
         $scope.DatosUsuarioLogado = {};
         $scope.DatosUsuarioLogado.Id = 0;
@@ -160,10 +184,74 @@ app.controller("daddiController", function ($scope) {
         $('#divMensajeForo').modal('show');
     };
 
+    $scope.GetMensajeForo = function (id) {
 
+        var mensajeForo = GetMensajeForo(id);
 
+        $scope.MensajeForo = {};
+        $scope.MensajeForo.Id = mensajeForo.Id;
+        $scope.MensajeForo.Titulo = mensajeForo.Titulo;
+        $scope.MensajeForo.Mensaje = mensajeForo.Mensaje;
+        $scope.MensajeForo.IdUsuarioAlta = mensajeForo.IdUsuarioAlta;
+        $scope.MensajeForo.FechaAlta = mensajeForo.FechaAlta;
+        $scope.MensajeForo.TituloPadre = mensajeForo.TituloPadre;
 
-    $scope.BuscarMensajesForo = function () {
+        if ($scope.MensajeForo.IdUsuarioAlta === $scope.DatosUsuarioLogado.Id) {
+            $scope.Edicion = true;
+        }
+
+        $('#divMensajeForo').modal('show');
+    };
+
+    $scope.GetHiloTema = function (id) {
+
+        var mensajesForo = GetHiloTema(id);
+
+        $scope.Hilo = [];
+
+        $.each(mensajesForo, function (x, y) {
+            y.Editando = false;
+            $scope.Hilo.push(y);
+        });
+
+        $scope.MensajeForo = {};
+        $scope.MensajeForo.Respondiendo = false;
+        $scope.MensajeForo.IdUsuarioAlta = $scope.DatosUsuarioLogado.Id;
+        $scope.MensajeForo.IdMensajePadre = id;
+        $scope.MensajeForo.Id = 0;
+         
+        //$scope.MensajeForo = {};
+
+        //$scope.MensajeForo.Id = mensajeForo.Id;
+        //$scope.MensajeForo.Titulo = mensajeForo.Titulo;
+        //$scope.MensajeForo.Mensaje = mensajeForo.Mensaje;
+        //$scope.MensajeForo.IdUsuarioAlta = mensajeForo.IdUsuarioAlta;
+        //$scope.MensajeForo.FechaAlta = mensajeForo.FechaAlta;
+        //$scope.MensajeForo.TituloPadre = mensajeForo.TituloPadre;
+
+        //if ($scope.MensajeForo.IdUsuarioAlta === $scope.DatosUsuarioLogado.Id) {
+        //    $scope.Edicion = true;
+        //}
+
+        $('#divMensajeForo').modal('show');
+    };
+
+    $scope.ContestarMensaje = function () {
+        $scope.MensajeForo.Respondiendo = true;
+    };
+
+    $scope.GuardarContestacionMensajeForo = function () {
+
+        GuardarMensajeForo($scope.MensajeForo);
+        $scope.MensajeForo.Respondiendo = false;
+        $scope.GetHiloTema($scope.MensajeForo.IdMensajePadre);
+    };
+
+    $scope.CancelarContestacionMensajeForo = function () {
+        $scope.MensajeForo.Respondiendo = false;
+    };
+
+    $scope.BuscarMensajesForo = function () {   
 
         var parametro = $scope.ParametroBusqueda;
 
@@ -191,6 +279,48 @@ app.controller("daddiController", function ($scope) {
         $scope.EdicionForo = false;
         $scope.BuscarMensajesForo();
     };
+
+    $scope.ActivarEdicionMensajeForo = function (id) {
+        $.each($scope.Hilo, function (x, y) {
+            if (y.Id === id) {
+                $scope.MensajeForo = y;
+                $scope.MensajeForoProvisional = y;
+                y.Editando = true;
+            }
+        });
+
+        $scope.MensajeForo = {};
+        $scope.MensajeForo.Respondiendo = false;
+    };
+
+    $scope.GuardarEdicionMensajeForo = function () {
+        
+        $.each($scope.Hilo, function (x, y) {
+            if (y.Editando === true) {
+                $scope.MensajeForo = y;
+                $scope.GuardarMensajeForo(); 
+                y.Editando = false;
+            }
+        });
+
+        $scope.MensajeForo = {};
+        $scope.MensajeForo.Respondiendo = false;
+    };
+
+    $scope.CancelarEdicionMensajeForo = function () {
+        $.each($scope.Hilo, function (x, y) {
+            if (y.Editando === true) {
+                $scope.Hilo[x] = $scope.MensajeForoProvisional;
+                $scope.Hilo[x].Titulo = $scope.MensajeForoProvisional.Titulo;
+                $scope.Hilo[x].Mensaje = $scope.MensajeForoProvisional.Mensaje;
+                y.Editando = false;
+            }
+        });
+
+        $scope.MensajeForo = {};
+        $scope.MensajeForo.Respondiendo = false;
+    };
+
     $scope.CerrarMensajeForo = function () {
         $('#divMensajeForo').modal('hide');
     };
