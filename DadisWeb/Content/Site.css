@@ -156,8 +156,9 @@ margin-right: auto !important;
 }
 
 .modalMensajeForo {
-    width: 90%;
-    height: 500px;
+    width: 95%;
+    margin-top: 10px;
+    height: 600px;
 }
 
 .modalLogin {
@@ -312,7 +313,7 @@ input:read-only{
 
 .hiloForo {
 overflow-y:auto;
-height:70%;
+max-height:70%;
 }
 
 .textAreaForo:read-only {

@@ -255,6 +255,31 @@ function GuardarMensajeForo(param) {
     return resultado;
 }
 
+function BajaMensajesForo(arrayIdsMensajes) {
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Foro/BajaMensajesForo";
+    var dataParam = JSON.stringify(arrayIdsMensajes);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: dataParam,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
+
 
 function GuardarDatosSesion(idParam, passwordParam, nombre, hashkey) {
 

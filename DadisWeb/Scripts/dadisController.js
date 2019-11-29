@@ -23,7 +23,7 @@ app.directive('enterBuscarUsuario', function () {
 
  
 
-app.controller("daddiController", function ($scope) {
+app.controller("daddiController", function ($scope, $window) {
 
   
     $scope.DatosUsuario = {};
@@ -40,6 +40,11 @@ app.controller("daddiController", function ($scope) {
 
     $scope.Edicion = false;
     $scope.EdicionForo = false;
+
+
+    $scope.IrAForo = function () {
+        $window.location.href = '/Foro/Index';
+    };
    
     $scope.MostrarUsuario = function (id) {
 
@@ -181,6 +186,9 @@ app.controller("daddiController", function ($scope) {
         $scope.MensajeForo = {};
         $scope.MensajeForo.Id = 0;
         $scope.EdicionForo = true;
+        $scope.MensajeForo.Respondiendo = true;
+        $scope.Hilo = null;
+        
         $('#divMensajeForo').modal('show');
     };
 
@@ -238,6 +246,8 @@ app.controller("daddiController", function ($scope) {
 
     $scope.ContestarMensaje = function () {
         $scope.MensajeForo.Respondiendo = true;
+
+        $("#divHiloForo").animate({ scrollTop: $('#divHiloForo').prop("scrollHeight") }, 1000);
     };
 
     $scope.GuardarContestacionMensajeForo = function () {
@@ -340,6 +350,47 @@ app.controller("daddiController", function ($scope) {
 
         BajaUsuarios(ids);
         $scope.BuscarUsuarios();
+    };
+
+
+    $scope.BajaTemasSeleccionadosForo = function () {
+
+        var mensajes = $scope.MensajesForo;
+
+        var ids = [];
+
+        $.each(mensajes, function (x, y) {
+            if (y.Seleccionado === true) {
+                ids.push(y.Id);
+            }
+        });
+
+        BajaMensajesForo(ids);
+        $scope.BuscarMensajesForo();
+    };
+
+    $scope.BajaSeleccionadosHilo = function () {
+
+        var mensajes = $scope.Hilo;
+
+        var idTema = $scope.Hilo[0].Id;
+
+        var ids = [];
+
+        $.each(mensajes, function (x, y) {
+            if (y.Seleccionado === true) {
+                ids.push(y.Id);
+            }
+        });
+
+        BajaMensajesForo(ids);
+        $scope.GetHiloTema(idTema);
+
+        if ($scope.Hilo.length == 0)  {
+            $scope.CerrarMensajeForo();
+            $scope.BuscarMensajesForo();
+        }
+      
     };
 
     $scope.AdminKey = function () {
