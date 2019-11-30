@@ -7,6 +7,9 @@ using System.Web.Mvc;
 using System.Security.Cryptography;
 using System.Text;
 using DadisWeb.Models;
+using CloudinaryDotNet.Actions;
+using CloudinaryDotNet;
+using System.IO;
 
 namespace DadisWeb.Controllers
 {
@@ -55,6 +58,46 @@ namespace DadisWeb.Controllers
             Session["Credenciales"] = credenciales;
 
             return Json("Ok", JsonRequestBehavior.AllowGet);
+        }
+
+
+        
+        [HttpPost]
+        public JsonResult UploadPhoto(HttpPostedFileBase fileInput)
+        {
+
+             
+             
+           // HttpPostedFile file = fileInput.PostedFile;
+            var uploadParams = new ImageUploadParams()
+            {
+                File = new FileDescription(fileInput.FileName, fileInput.InputStream),
+            };
+    
+
+            //if (file != null && file.ContentLength > 0)
+            //{
+            //    var fileName = Path.GetFileName(file.FileName);
+            //    path = Path.Combine(Server.MapPath("~/Images/"), fileName);
+            //    file.SaveAs(path);
+            //}
+
+            Account account = new Account(
+
+  ConfigurationManager.AppSettings["CloudName"].ToString(),
+   ConfigurationManager.AppSettings["CloudApiKey"].ToString(),
+   ConfigurationManager.AppSettings["CloudApiSecret"].ToString());
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            //var uploadParams = new ImageUploadParams()
+            //{
+            //    File = new FileDescription(@rutaFoto)
+                
+            //};
+            var uploadResult = cloudinary.Upload(uploadParams);
+
+            return Json(uploadResult);
         }
 
         [HttpPost]

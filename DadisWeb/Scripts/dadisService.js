@@ -281,6 +281,7 @@ function BajaMensajesForo(arrayIdsMensajes) {
 }
 
 
+
 function GuardarDatosSesion(idParam, passwordParam, nombre, hashkey) {
 
        
@@ -331,6 +332,31 @@ function GetDatosSesion() {
     return resultado;
 }
 
+function SubirFoto() {
+   
+    var resultado = {};
+    var url = "/Home/UploadPhoto";
+   // var formdata = new FormData($('formUsuarioPhoto').get(0));
+    var formData = new FormData($('#formUsuarioPhoto')[0]);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: formData, // { fileInput: formdata }, // formdata, // JSON.stringify({rutaFoto: localPath}),
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+        resultado = result;
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
 
 function GetAdminKey() {
 

@@ -386,11 +386,21 @@ app.controller("daddiController", function ($scope, $window) {
         BajaMensajesForo(ids);
         $scope.GetHiloTema(idTema);
 
-        if ($scope.Hilo.length == 0)  {
+        if ($scope.Hilo.length === 0)  {
             $scope.CerrarMensajeForo();
             $scope.BuscarMensajesForo();
         }
       
+    };
+
+    $scope.SubirFoto = function ()
+    {
+       // var ruta = $("#rutaFoto").val().replace(/C:\\fakepath\\/i, '');
+
+        var subidaFoto = SubirFoto();
+
+        var objAux = subidaFoto;
+        $scope.DatosUsuario.RutaFoto = subidaFoto.Uri;
     };
 
     $scope.AdminKey = function () {
