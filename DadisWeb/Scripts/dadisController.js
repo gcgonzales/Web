@@ -30,7 +30,7 @@ app.controller("daddiController", function ($scope, $window) {
     $scope.DatosUsuario.Id = 0;
     $scope.DatosUsuarioLogado = {};
     $scope.DatosUsuarioLogado.Id = 0;
-
+     
 
     //$rootScope.$on('$routeChangeStart', function (event, next, current) {
     //    if (!current) {
@@ -45,6 +45,10 @@ app.controller("daddiController", function ($scope, $window) {
     $scope.IrAForo = function () {
         $window.location.href = '/Foro/Index';
     };
+
+    $scope.IrAQuedadas = function () {
+        $window.location.href = '/Quedada/Index';
+    };
    
     $scope.MostrarUsuario = function (id) {
 
@@ -58,9 +62,13 @@ app.controller("daddiController", function ($scope, $window) {
         $scope.DatosUsuario.Telefono = usuario.Telefono;
         $scope.DatosUsuario.Email = usuario.Email;
         $scope.DatosUsuario.Login = usuario.Login;
-        if (usuario.Fotos !== undefined && usuario.Fotos !== null && usuario.Fotos.Length > 0)
+      
+        $scope.DatosUsuario.Fotografias = [];
+        $scope.DatosUsuario.Fotografias = usuario.Fotografias;
+
+        if (usuario.Fotografias !== undefined && usuario.Fotografias !== null && usuario.Fotografias.Length > 0)
         {
-            $scope.DatosUsuario.RutaImagenPrincipal = usuario.Fotos[0].NombreFichero + usuario.Fotos[0].Extension;
+            $scope.DatosUsuario.RutaImagenPrincipal = usuario.Fotografias[0].RutaFoto; 
         }
 
         if ($scope.DatosUsuario.Id === $scope.DatosUsuarioLogado.Id) {
@@ -77,6 +85,7 @@ app.controller("daddiController", function ($scope, $window) {
         var usuario = GetUsuario(id);
 
         $scope.DatosUsuario = {};
+        $scope.DatosUsuario.Fotografias = [];
         $scope.DatosUsuario.Id = usuario.Id;
         $scope.DatosUsuario.Nombres = usuario.Nombres;
         $scope.DatosUsuario.ApellidoPrimero = usuario.ApellidoPrimero;
@@ -84,8 +93,9 @@ app.controller("daddiController", function ($scope, $window) {
         $scope.DatosUsuario.Telefono = usuario.Telefono;
         $scope.DatosUsuario.Email = usuario.Email;
         $scope.DatosUsuario.Login = usuario.Login;
-        if (usuario.Fotos !== undefined && usuario.Fotos !== null && usuario.Fotos.Length > 0) {
-            $scope.DatosUsuario.RutaImagenPrincipal = usuario.Fotos[0].NombreFichero + usuario.Fotos[0].Extension;
+        $scope.DatosUsuario.Fotografias = usuario.Fotografias;
+        if (usuario.Fotografias !== undefined && usuario.Fotografias !== null && usuario.Fotografias.Length > 0) {
+            $scope.DatosUsuario.RutaImagenPrincipal = usuario.Fotografias[0].RutaFoto;
         }
 
         $('#divUsuario').modal('show');
@@ -179,9 +189,11 @@ app.controller("daddiController", function ($scope, $window) {
         $scope.Edicion = false;
         $scope.BuscarUsuarios();
     };
+
     $scope.CerrarUsuario = function () {
         $('#divUsuario').modal('hide');
     };
+
     $scope.AltaMensajeForo = function () {
         $scope.MensajeForo = {};
         $scope.MensajeForo.Id = 0;
@@ -228,19 +240,6 @@ app.controller("daddiController", function ($scope, $window) {
         $scope.MensajeForo.IdMensajePadre = id;
         $scope.MensajeForo.Id = 0;
          
-        //$scope.MensajeForo = {};
-
-        //$scope.MensajeForo.Id = mensajeForo.Id;
-        //$scope.MensajeForo.Titulo = mensajeForo.Titulo;
-        //$scope.MensajeForo.Mensaje = mensajeForo.Mensaje;
-        //$scope.MensajeForo.IdUsuarioAlta = mensajeForo.IdUsuarioAlta;
-        //$scope.MensajeForo.FechaAlta = mensajeForo.FechaAlta;
-        //$scope.MensajeForo.TituloPadre = mensajeForo.TituloPadre;
-
-        //if ($scope.MensajeForo.IdUsuarioAlta === $scope.DatosUsuarioLogado.Id) {
-        //    $scope.Edicion = true;
-        //}
-
         $('#divMensajeForo').modal('show');
     };
 
@@ -393,14 +392,18 @@ app.controller("daddiController", function ($scope, $window) {
       
     };
 
-    $scope.SubirFoto = function ()
+    $scope.SubirFoto = function (IdUsuario)
     {
-       // var ruta = $("#rutaFoto").val().replace(/C:\\fakepath\\/i, '');
-
         var subidaFoto = SubirFoto();
 
-        var objAux = subidaFoto;
-        $scope.DatosUsuario.RutaFoto = subidaFoto.Uri;
+        var foto = {};
+        foto.Id = 0;
+        foto.IdUsuario = IdUsuario;
+        foto.RutaFoto = subidaFoto.Uri;
+        foto.Baja = false;
+
+        $scope.DatosUsuario.Fotografias.push(foto);
+        //$scope.DatosUsuario.RutaFoto = subidaFoto.Uri;
     };
 
     $scope.AdminKey = function () {

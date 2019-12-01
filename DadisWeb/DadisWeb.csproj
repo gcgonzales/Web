@@ -204,6 +204,7 @@
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Foro\_MensajeForo.cshtml" />
     <Content Include="Views\Shared\_ReiniciarPassword.cshtml" />
+    <Content Include="Views\Quedada\_DetalleQuedada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

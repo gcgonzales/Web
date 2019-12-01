@@ -45,7 +45,7 @@
                             </h1>
                         </div>
                         <div class="col-xs-2" style="text-align:center;">
-                            <img alt="persona" src="~/Content/images/person.jpg" class="photoLogado" />
+                            <img alt="persona" ng-src="{{(DatosUsuarioLogado.Fotografias != null && DatosUsuarioLogado.Fotografias.length > 0) ? DatosUsuarioLogado.Fotografias[0].RutaFoto : '/Content/images/person.jpg'  }}" class="photoLogado" />
                         </div>
                         <div class="col-xs-7">
                             <h3 ng-if="DatosUsuarioLogado.Id !== 0">Hola {{ DatosUsuarioLogado.Nombres }}!</h3>
