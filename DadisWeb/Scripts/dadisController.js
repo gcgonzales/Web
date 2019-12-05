@@ -1,4 +1,5 @@
-﻿var app = angular.module("daddiApp", []);
+﻿var app = angular.module("daddiApp", ['ngRoute',
+    '720kb.datepicker']);
 
 app.config(function ($httpProvider) {
     $httpProvider.defaults.headers.common = {};
@@ -6,6 +7,52 @@ app.config(function ($httpProvider) {
     $httpProvider.defaults.headers.put = {};
     $httpProvider.defaults.headers.patch = {};
 });
+
+
+//app.directive('datepicker', function () {
+
+//    return {
+//        restrict: 'E',
+//        transclude: true,
+//        scope: {
+//            date: '='
+//        },
+//        link: function (scope, element, attrs) {
+//            element.datepicker({
+//                dateFormat: 'dd-mm-yy',
+//                onSelect: function (dateText, datepicker) {
+//                    scope.date = dateText;
+//                    scope.$apply();
+//                }
+//            });
+//        },
+//        template: '<input type="text" class="span2" ng-model="date"/>',
+//        replace: true
+//    };
+
+//});
+
+//app.config(function ($mdDateLocaleProvider) {
+//    // Example of a Spanish localization.
+//    $mdDateLocaleProvider.months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+//        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+//    $mdDateLocaleProvider.shortMonths = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+//        'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+//    $mdDateLocaleProvider.days = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado'];
+//    $mdDateLocaleProvider.shortDays = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'];
+//    // Can change week display to start on Monday.
+//    $mdDateLocaleProvider.firstDayOfWeek = 1;
+//    // Optional.
+//    //$mdDateLocaleProvider.dates = [1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17,18,19,
+//    //                               20,21,22,23,24,25,26,27,28,29,30,31];
+//    // In addition to date display, date components also need localized messages
+//    // for aria-labels for screen-reader users.
+//    $mdDateLocaleProvider.weekNumberFormatter = function (weekNumber) {
+//        return 'Semana ' + weekNumber;
+//    };
+//    $mdDateLocaleProvider.msgCalendar = 'Calendario';
+//    $mdDateLocaleProvider.msgOpenCalendar = 'Abrir calendario';
+//});
 
 app.directive('enterBuscarUsuario', function () {
     return function (scope, element, attrs) {
@@ -31,7 +78,11 @@ app.controller("daddiController", function ($scope, $window) {
     $scope.DatosUsuarioLogado = {};
     $scope.DatosUsuarioLogado.Id = 0;
      
-
+    $scope.dateOptions = {
+        changeYear: true,
+        changeMonth: true,
+        yearRange: '1900:-0'
+    };
     //$rootScope.$on('$routeChangeStart', function (event, next, current) {
     //    if (!current) {
           
@@ -40,7 +91,7 @@ app.controller("daddiController", function ($scope, $window) {
 
     $scope.Edicion = false;
     $scope.EdicionForo = false;
-
+    $scope.EdicionQuedada = false;
 
     $scope.IrAForo = function () {
         $window.location.href = '/Foro/Index';
@@ -94,9 +145,8 @@ app.controller("daddiController", function ($scope, $window) {
         $scope.DatosUsuario.Email = usuario.Email;
         $scope.DatosUsuario.Login = usuario.Login;
         $scope.DatosUsuario.Fotografias = usuario.Fotografias;
-        if (usuario.Fotografias !== undefined && usuario.Fotografias !== null && usuario.Fotografias.Length > 0) {
-            $scope.DatosUsuario.RutaImagenPrincipal = usuario.Fotografias[0].RutaFoto;
-        }
+
+       
 
         $('#divUsuario').modal('show');
     };
@@ -402,9 +452,132 @@ app.controller("daddiController", function ($scope, $window) {
         foto.RutaFoto = subidaFoto.Uri;
         foto.Baja = false;
 
+        if ($scope.DatosUsuario.Fotografias.length === 0) { foto.EsPrincipal = true; }
+        else { foto.EsPrincipal = false; }
+
         $scope.DatosUsuario.Fotografias.push(foto);
+    };
+
+    $scope.SubirFotoQuedada = function (IdQuedada) {
+        var subidaFoto = SubirFoto();
+
+        var foto = {};
+        foto.Id = 0;
+        foto.IdQuedada = IdQuedada;
+        foto.RutaFoto = subidaFoto.Uri;
+        foto.Baja = false;
+
+        $scope.Quedada.Fotografias.push(foto);
         //$scope.DatosUsuario.RutaFoto = subidaFoto.Uri;
     };
+
+
+    $scope.BuscarQuedadas = function () {
+
+        var parametro = $scope.ParametroBusqueda;
+
+        if (parametro === null || parametro === undefined) { parametro = ""; }
+
+        var quedadas = GetQuedadas(parametro);
+
+        $scope.Quedadas = [];
+
+        $.each(quedadas, function (x, y) {
+            $scope.Quedadas.push(y);
+        });
+
+    };
+
+
+    $scope.GuardarQuedada = function () {
+
+        $scope.Quedada.IdUsuarioAlta = $scope.DatosUsuarioLogado.Id;
+        GuardarQuedada($scope.Quedada);
+
+        $('#divDetalleQuedada').modal('hide');
+        $scope.EdicionQuedada = false;
+        $scope.BuscarQuedadas();
+    };
+
+    $scope.AltaQuedada = function () {
+        $scope.Quedada = {};
+        $scope.Quedada.Id = 0;
+        $scope.Quedada.Fotografias = [];
+
+        $scope.EdicionQuedada = true;
+        $scope.Quedada.RespondiendoQuedada = true;
+
+        $('#divDetalleQuedada').modal('show');
+    };
+
+    $scope.BajaSeleccionadosQuedada = function () {
+
+        var quedadas = $scope.Quedadas;
+        var ids = [];
+
+        $.each(quedadas, function (x, y) {
+            if (y.Seleccionado === true) {
+                ids.push(y.Id);
+            }
+        });
+
+        BajaQuedadas(ids);
+        $scope.BuscarQuedadas();
+    };
+
+    $scope.GetQuedada = function (id) {
+
+        var quedada = GetQuedada(id);
+
+        $scope.Quedada = {};
+        $scope.Quedada.Id = quedada.Id;
+        $scope.Quedada.Titulo = quedada.Titulo;
+        $scope.Quedada.Resumen = quedada.Mensaje;
+        $scope.Quedada.IdUsuarioAlta = quedada.IdUsuarioAlta;
+        $scope.Quedada.FechaAlta = quedada.FechaAlta;
+        $scope.Quedada.Detalle = quedada.TituloPadre;
+
+        if ($scope.quedada.IdUsuarioAlta === $scope.DatosUsuarioLogado.Id) {
+            $scope.EdicionQuedada = true;
+        }
+
+        $('#divDetalleQuedada').modal('show');
+    };
+
+
+    $scope.ActivarEdicionQuedada = function (id) {
+        $.each($scope.Hilo, function (x, y) {
+            if (y.Id === id) {
+                $scope.Quedada = y;
+                $scope.QuedadaProvisional = y;
+                y.Editando = true;
+            }
+        });
+
+        $scope.Quedada = {};
+        $scope.Quedada.EditandoQuedada = false;
+    };
+
+    $scope.CancelarEdicionQuedada = function () {
+        $.each($scope.Quedadas, function (x, y) {
+            if (y.EditandoQuedada === true) {
+                $scope.Quedada[x] = $scope.QuedadaProvisional;
+                $scope.Quedada[x].Titulo = $scope.QuedadaProvisional.Titulo;
+                $scope.Quedada[x].Resumen = $scope.QuedadaProvisional.Resumen;
+                $scope.Quedada[x].Desripcion = $scope.QuedadaProvisional.Desripcion;
+                y.EditandoQuedada = false;
+            }
+        });
+
+        $scope.MensajeForo = {};
+        $scope.MensajeForo.Respondiendo = false;
+    };
+
+
+    $scope.CerrarQuedada = function () {
+        $('#divDetalleQuedada').modal('hide');
+    };
+
 
     $scope.AdminKey = function () {
         var resultado = GetAdminKey();

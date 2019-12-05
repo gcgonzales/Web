@@ -307,6 +307,29 @@ function GuardarDatosSesion(idParam, passwordParam, nombre, hashkey) {
     return resultado;
 }
 
+
+function GetQuedadas(param) {
+
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Quedada/GetQuedadas";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: { textoBusqueda: param },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false
+    }).done(function (result) {
+        resultado = JSON.parse(JSON.stringify(result));
+    }
+    );
+
+    return resultado;
+}
+
 function GetDatosSesion() {
 
      

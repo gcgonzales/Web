@@ -11,10 +11,14 @@
     <title>Dadis - La red social para padres</title>
 
     @Scripts.Render("~/bundles/jquery")
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/bootstrap")
 
     @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/moment")
+
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/cloudinary")
 
@@ -25,10 +29,12 @@
             if ($.fn.cloudinary_fileupload !== undefined) {
                 $("input.cloudinary-fileupload[type=file]").cloudinary_fileupload();
             }
+
+            $(".modal").draggable();
         });
     </script>
 
-  
+
 </head>
 
 

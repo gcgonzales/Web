@@ -9,10 +9,14 @@ namespace DadisWeb
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js").Include(
+                        "~/Scripts/jquery-ui.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
+
+            bundles.Add(new ScriptBundle("~/bundles/moment").Include(
+                      "~/Scripts/moment.min.js"));
 
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información. De este modo, estará
             // para la producción, use la herramienta de compilación disponible en https://modernizr.com para seleccionar solo las pruebas que necesite.
@@ -25,6 +29,8 @@ namespace DadisWeb
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                     "~/Scripts/angular.min.js").Include(
                 "~/Scripts/angular-route.min.js").Include(
+                "~/Scripts/angular-locale_es.js").Include(
+                "~/Scripts/angular-datepicker.js").Include(
                 "~/Scripts/dadisController.js").Include(
                 "~/Scripts/dadisService.js"));
 
@@ -40,7 +46,7 @@ namespace DadisWeb
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css", "~/Content/bootstrap-responsive.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css", "~/Content/angular-datepicker.css"));
         }
     }
 }
