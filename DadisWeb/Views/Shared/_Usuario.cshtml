@@ -5,10 +5,10 @@
 
 
     @*<div class="row">
-        <div class="col-xs-12">
-         
-        </div>
-    </div>*@
+            <div class="col-xs-12">
+
+            </div>
+        </div>*@
 
     <div ng-if="DatosUsuario.Id == 0" class="row subrayado">
         <div class="col-xs-12"><h2>Alta de nuevo usuario </h2> </div>
@@ -22,7 +22,7 @@
             <div class="btn btn-default alignRight">Chat</div>
         </div>
     </div>
- 
+
     <div class="row">
         <hr />
     </div>
@@ -30,7 +30,7 @@
         <div class="col-xs-12 col-sm-6">
             <div class="row">
                 <div class="col-xs-4">Nombre:</div>
-                <div class="col-xs-8"> <input type="text" ng-readonly="!Editable()"  ng-model="DatosUsuario.Nombres" /></div>
+                <div class="col-xs-8"> <input type="text" ng-readonly="!Editable()" ng-model="DatosUsuario.Nombres" /></div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-6">
@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <div ng-if="DatosUsuario.Id == 0"  class="row">
+    <div ng-if="DatosUsuario.Id == 0" class="row">
         <div class="col-xs-12 col-sm-6">
             <div class="row">
                 <div class="col-xs-4">Crear password:</div>
@@ -72,19 +72,19 @@
     </div>
 
     @*<div class="row">
-        <div class="col-xs-12 col-sm-6">
-            <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="row">
 
+                </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-6">
-            <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="row">
 
+                </div>
             </div>
-        </div>
 
-     
-    </div>*@
+
+        </div>*@
 
     <div class="row">
         <div class="col-xs-12 col-sm-6">
@@ -100,17 +100,17 @@
             </div>
         </div>
     </div>
-     
 
-    <div ng-if="DatosUsuario.Id != 0" class="row">
+
+    <div class="row">
         <div class="col-xs-4">Fotos:</div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" ng-if="Editable()==true" >
             @using (Html.BeginForm("UploadPhoto", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "formUsuarioPhoto" }))
             {
                 <input type="file" name="fileInput" id="fileInput" />
             }
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" ng-if="Editable()==true">
             <a href="#" class="btn-mini btn-primary btn-xs alignLeft" ng-click="SubirFoto(DatosUsuario.Id)">
                 <span class="glyphicon glyphicon-edit"></span> Añadir
             </a>
@@ -123,22 +123,24 @@
                             <img alt="" class="photo" ng-src="{{fotografias.RutaFoto}}" />
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" ng-if="Editable()==true">
                         <div class="col-xs-12 col-sm-6">
                             <p><input type="checkbox" ng-model="fotografias.Baja" />Eliminar</p>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <input type="radio" name="fotoPrincipal" ng-checked="fotografias.EsPrincipal==true" value="{{fotografias.RutaFoto}}" />Principal
                         </div>
-                    </div>   
+                    </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
+    <div class="row">
+        <hr />
+    </div>
 
-
-    <div class="row" ng-if="Editable()">
+    <div class="row" ng-if="Editable()==true">
         <div class="col-xs-12">
             <div class="btn btn-primary alignRight" ng-click="GuardarUsuario()">Guardar</div>
         </div>

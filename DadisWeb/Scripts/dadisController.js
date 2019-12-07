@@ -452,8 +452,10 @@ app.controller("daddiController", function ($scope, $window) {
         foto.RutaFoto = subidaFoto.Uri;
         foto.Baja = false;
 
-        if ($scope.DatosUsuario.Fotografias.length === 0) { foto.EsPrincipal = true; }
+        if ($scope.DatosUsuario.Fotografias === undefined || $scope.DatosUsuario.Fotografias.length === 0) { foto.EsPrincipal = true; }
         else { foto.EsPrincipal = false; }
+
+        if ($scope.DatosUsuario.Fotografias === undefined) { $scope.DatosUsuario.Fotografias = []; }
 
         $scope.DatosUsuario.Fotografias.push(foto);
     };

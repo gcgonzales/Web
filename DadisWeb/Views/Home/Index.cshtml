@@ -21,7 +21,7 @@
         <hr />
         <div class="col-xs-12">
             <div class="row">
-                <div class="col-xs-2 clickable centrado" ng-repeat="usuario in Usuarios" ng-click="MostrarUsuario(usuario.Id)">
+                <div class="col-xs-6 col-sm-3 col-md-2" clickable centrado" ng-repeat="usuario in Usuarios" ng-click="MostrarUsuario(usuario.Id)">
                     <img alt="persona" ng-src="{{(usuario.Fotografias != null && usuario.Fotografias.length > 0 && usuario.Fotografias[0].Id > 0) ? usuario.Fotografias[0].RutaFoto : '/Content/images/person.jpg'  }}" class="photo" />
                     <p>{{usuario.Nombres}} {{usuario.ApellidoPrimero}}</p>
                 </div>
