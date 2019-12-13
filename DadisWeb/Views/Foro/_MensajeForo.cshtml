@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="btn btn-warning alignRight" ng-click="CerrarMensajeForo()">Cerrar</div>
-            <div class="btn btn-danger alignRight" ng-click="BajaSeleccionadosHilo()">Baja a seleccionados</div>
+            <div class="btn btn-danger alignRight" ng-if="DatosUsuarioLogado!=null && DatosUsuarioLogado!=undefined && DatosUsuarioLogado.Id != 0" ng-click="BajaSeleccionadosHilo()">Baja a seleccionados</div>
         </div>
     </div>
 
@@ -42,20 +42,22 @@
         </div>
     </div>
     <div id="divHiloForo" ng-if="Hilo != null && Hilo.length > 0" class="row hiloForo">
+
         <div class="col-xs-12 TemaForo" ng-repeat="hiloMensajes in Hilo">
             <div class="row backGroundForo1">
                 <div class="col-xs-1">
-                    <input type="checkbox" ng-model="hiloMensajes.Seleccionado" />
+                    <input type="checkbox" ng-model="hiloMensajes.Seleccionado" ng-if="DatosUsuarioLogado.Id==hiloMensajes.IdUsuarioAlta || DatosUsuarioLogado.PerfilKey == AdminKey()" />
                 </div>
                 <div class="col-xs-11">
                     <input type="text" ng-readonly="hiloMensajes.Editando == false" ng-model="hiloMensajes.Titulo" class="inputTituloForo" /> 
                 </div>
             </div>
             <div class="row cuerpoTemaForo">
-                <div class="col-xs-6"><h5> Autor: {{hiloMensajes.Autor}} </h5></div>
+                <div class="col-xs-1"><img alt="persona" ng-src="{{(hiloMensajes.RutaFotoAutor != null && hiloMensajes.RutaFotoAutor != '') ? hiloMensajes.RutaFotoAutor : '/Content/images/person.jpg'  }}" class="photoLogado" ng-click="MostrarUsuario(hiloMensajes.IdUsuarioAlta)" /></div>
+                <div class="col-xs-5"><h5> Autor: {{hiloMensajes.Autor}} </h5></div>
                 <div class="col-xs-6"><h5> Creado: {{hiloMensajes.FechaAlta}}</h5></div>
-                <div class="col-xs-12"><textarea ng-readonly="hiloMensajes.Editando == false" type="text" class="textAreaForo" ng-model="hiloMensajes.Mensaje"></textarea> </div>
-                <div class="col-xs-12" ng-if="hiloMensajes.Editando == false">
+                <div class="col-xs-11"><textarea ng-readonly="hiloMensajes.Editando == false" type="text" class="textAreaForo" ng-model="hiloMensajes.Mensaje" @*rows="10"*@></textarea> </div>
+                <div class="col-xs-12" ng-if="hiloMensajes.Editando == false && (DatosUsuarioLogado.Id==hiloMensajes.IdUsuarioAlta || DatosUsuarioLogado.PerfilKey == AdminKey())">
                     <a href="#" class="btn btn-danger btn-xs alignRight">
                         <span class="glyphicon glyphicon-erase"></span> Eliminar
                     </a>
@@ -110,7 +112,7 @@
             </a>
             <input type="hidden" ng-model="MensajeForo.IdMensajePadre" />
         </div>
-        <div class="col-xs-12" ng-if="MensajeForo.Respondiendo==false">
+        <div class="col-xs-12" ng-if="MensajeForo.Respondiendo==false && (DatosUsuarioLogado!=null && DatosUsuarioLogado!=undefined && DatosUsuarioLogado.Id != 0)">
             <div class="btn btn-primary alignRight" ng-click="ContestarMensaje()">Responder mensaje</div>
         </div>
     </div>

@@ -344,6 +344,11 @@ overflow-y:auto;
 max-height:70%;
 }
 
+.textAreaForo {
+margin-top:20px;
+height:100px;
+}
+
 .textAreaForo:read-only {
     border: 0;
 }

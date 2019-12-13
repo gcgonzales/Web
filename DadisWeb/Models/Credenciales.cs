@@ -18,6 +18,8 @@ namespace DadisWeb.Models
 
         public string Password { get; set; }
 
-        public string HashKey { get; set; }
+        public string PerfilKey { get; set; }
+
+        public string Token { get; set; }
     }
 }

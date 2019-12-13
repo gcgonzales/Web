@@ -4,29 +4,31 @@
 
 
 <div id="divListaUsuarios" class="marginTopBody">
-     
-    <div class="container" ng-init="BuscarUsuarios()">
-     <div class="row">
-         <div class="col-xs-12">
-             <div class="btn btn-danger alignRight" ng-click="BajaSeleccionados()">Baja a seleccionados</div>
-             <div class="btn btn-default alignRight" ng-click="AltaUsuario()">Nuevo Usuario</div>
-         </div>
-     </div>
-     <div class="row">  
-         <div class="col-xs-12 col-sm-6" ng-repeat="usuario in Usuarios">
-             <div class="row">
-                 <div class="col-xs-1 filaListaUsuario">
-                     <input type="checkbox" ng-model="usuario.Seleccionado" />
-                 </div>
-                 <div class="col-xs-2 clickable" ng-click="MostrarUsuario(usuario.Id)">
-                     <img alt="persona" src="~/Content/images/person.jpg" class="photo" />
-                 </div>
-                 <div ng-click="MostrarUsuarioEdicion(usuario.Id)" class="col-xs-6 filaListaUsuario clickable">{{usuario.Nombres}} &nbsp; {{usuario.ApellidoPrimero}} &nbsp; {{usuario.ApellidoSegundo}}</div>
-             </div>
-         </div>
-      </div>
+
+    <div class="container" ng-if="DatosUsuarioLogado != null && DatosUsuarioLogado != undefined && DatosUsuarioLogado.PerfilKey == AdminKey()" ng-init="BuscarUsuarios()">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="btn btn-danger alignRight" ng-click="BajaSeleccionados()">Baja a seleccionados</div>
+                <div class="btn btn-default alignRight" ng-click="AltaUsuario()">Nuevo Usuario</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6" ng-repeat="usuario in Usuarios">
+                <div class="row">
+                    <div class="col-xs-1 filaListaUsuario">
+                        <input type="checkbox" ng-model="usuario.Seleccionado" />
+                    </div>
+                    <div class="col-xs-2 clickable" ng-click="MostrarUsuario(usuario.Id)">
+                        <img alt="persona" src="~/Content/images/person.jpg" class="photo" />
+                    </div>
+                    <div ng-click="MostrarUsuarioEdicion(usuario.Id)" class="col-xs-6 filaListaUsuario clickable">{{usuario.Nombres}} &nbsp; {{usuario.ApellidoPrimero}} &nbsp; {{usuario.ApellidoSegundo}}</div>
+                </div>
+            </div>
+        </div>
 
     </div>
-
+    <div ng-if="DatosUsuarioLogado == null || DatosUsuarioLogado == undefined || DatosUsuarioLogado.PerfilKey != AdminKey()">
+        No tiene permisos
+    </div>
 </div>
 

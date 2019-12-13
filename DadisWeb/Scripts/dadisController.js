@@ -1,4 +1,4 @@
-﻿var app = angular.module("daddiApp", ['ngRoute',
+﻿var app = angular.module("daddiApp", ['ngRoute', 
     '720kb.datepicker']);
 
 app.config(function ($httpProvider) {
@@ -70,7 +70,7 @@ app.directive('enterBuscarUsuario', function () {
 
  
 
-app.controller("daddiController", function ($scope, $window) {
+app.controller("daddiController", function ($scope, $window, $timeout) {
 
   
     $scope.DatosUsuario = {};
@@ -181,7 +181,7 @@ app.controller("daddiController", function ($scope, $window) {
         $scope.DatosUsuarioLogado = usuarioLogin;
 
         if (usuarioLogin.Id !== 0) {
-            GuardarDatosSesion($scope.DatosUsuarioLogado.Id, password, $scope.DatosUsuarioLogado.Nombres, $scope.DatosUsuarioLogado.HashKey);
+            GuardarDatosSesion($scope.DatosUsuarioLogado.Id, password, $scope.DatosUsuarioLogado.Nombres, $scope.DatosUsuarioLogado.PerfilKey, $scope.DatosUsuarioLogado.Token);
             $scope.CerrarLogin();
         }
     };
@@ -213,7 +213,7 @@ app.controller("daddiController", function ($scope, $window) {
     $scope.CerrarSesion = function () {
         $scope.DatosUsuarioLogado = {};
         $scope.DatosUsuarioLogado.Id = 0;
-        GuardarDatosSesion(0, "","","");
+        GuardarDatosSesion(0, "","","","");
     };
 
     $scope.Registrarse = function () {
@@ -233,6 +233,7 @@ app.controller("daddiController", function ($scope, $window) {
     $scope.GuardarUsuario = function () {
 
         $scope.DatosUsuario.IdUsuarioAlta = $scope.DatosUsuarioLogado.Id;
+        $scope.DatosUsuario.Token = $scope.DatosUsuarioLogado.Token;
         GuardarUsuario($scope.DatosUsuario);
       
         $('#divUsuario').modal('hide');
@@ -289,8 +290,14 @@ app.controller("daddiController", function ($scope, $window) {
         $scope.MensajeForo.IdUsuarioAlta = $scope.DatosUsuarioLogado.Id;
         $scope.MensajeForo.IdMensajePadre = id;
         $scope.MensajeForo.Id = 0;
-         
+
+        
+
+     
+
         $('#divMensajeForo').modal('show');
+
+        //$timeout(function () { $('textarea').autoResize(); }, 3000);
     };
 
     $scope.ContestarMensaje = function () {
@@ -589,7 +596,7 @@ app.controller("daddiController", function ($scope, $window) {
 
     $scope.Editable = function () {
         var editable = false;
-        if ($scope.DatosUsuarioLogado !== undefined && $scope.DatosUsuarioLogado.HashKey === $scope.AdminKey()) {
+        if ($scope.DatosUsuarioLogado !== undefined && $scope.DatosUsuarioLogado.PerfilKey === $scope.AdminKey()) {
             editable = true;
         }
         else if ($scope.DatosUsuario !== undefined && $scope.DatosUsuarioLogado.Id === $scope.DatosUsuario.Id) {
@@ -617,7 +624,7 @@ app.controller("daddiController", function ($scope, $window) {
         $scope.DatosUsuarioLogado.Id = credencialesActuales.Id;
         $scope.DatosUsuarioLogado.Nombres = credencialesActuales.Nombre;
         $scope.DatosUsuarioLogado.Password = credencialesActuales.Password;
-        $scope.DatosUsuarioLogado.HashKey = credencialesActuales.HashKey;
+        $scope.DatosUsuarioLogado.PerfilKey = credencialesActuales.PerfilKey;
     }
 
 });

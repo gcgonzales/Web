@@ -140,7 +140,7 @@
         <hr />
     </div>
 
-    <div class="row" ng-if="Editable()==true">
+    <div class="row" ng-if="DatosUsuarioLogado.Id == DatosUsuario.Id || DatosUsuarioLogado.PerfilKey == AdminKey()">
         <div class="col-xs-12">
             <div class="btn btn-primary alignRight" ng-click="GuardarUsuario()">Guardar</div>
         </div>

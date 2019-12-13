@@ -10,7 +10,8 @@ namespace DadisWeb
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js").Include(
-                        "~/Scripts/jquery-ui.js"));
+                        "~/Scripts/jquery-ui.js").Include(
+                "~/Scripts/autoresize.jquery.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

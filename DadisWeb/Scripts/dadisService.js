@@ -102,6 +102,7 @@ function GuardarUsuario(param) {
         type: "POST",
         url: url,
         data: dataParam,
+        headers: { "Authorization": param.Token },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false,
@@ -282,7 +283,7 @@ function BajaMensajesForo(arrayIdsMensajes) {
 
 
 
-function GuardarDatosSesion(idParam, passwordParam, nombre, hashkey) {
+function GuardarDatosSesion(idParam, passwordParam, nombre, perfilkey, token) {
 
        
     var resultado = {};
@@ -291,7 +292,7 @@ function GuardarDatosSesion(idParam, passwordParam, nombre, hashkey) {
     $.ajax({
         type: "POST",
         url: url,
-        data: JSON.stringify({Id: idParam, Password: passwordParam, Nombre: nombre, HashKey: hashkey }),
+        data: JSON.stringify({Id: idParam, Password: passwordParam, Nombre: nombre, PerfilKey: perfilkey, Token: token }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false,

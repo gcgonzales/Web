@@ -45,7 +45,7 @@ namespace DadisWeb.Controllers
         }
 
         [HttpPost]
-        public JsonResult GuardarDatosSesion(int Id, string Password, string Nombre, string HashKey)
+        public JsonResult GuardarDatosSesion(int Id, string Password, string Nombre, string PerfilKey, string Token)
         {
             string HashPassword = MD5Hash(Password);
 
@@ -53,7 +53,8 @@ namespace DadisWeb.Controllers
             credenciales.Id = Id;
             credenciales.Nombre = Nombre;
             credenciales.Password = Password;
-            credenciales.HashKey = HashKey;
+            credenciales.PerfilKey = PerfilKey;
+            credenciales.Token = Token;
 
             Session["Credenciales"] = credenciales;
 
