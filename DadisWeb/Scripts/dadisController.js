@@ -477,7 +477,6 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         foto.Baja = false;
 
         $scope.Quedada.Fotografias.push(foto);
-        //$scope.DatosUsuario.RutaFoto = subidaFoto.Uri;
     };
 
 
@@ -541,7 +540,9 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         $scope.Quedada = {};
         $scope.Quedada.Id = quedada.Id;
         $scope.Quedada.Titulo = quedada.Titulo;
-        $scope.Quedada.Resumen = quedada.Mensaje;
+        $scope.Quedada.Resumen = quedada.Resumen;
+        $scope.Quedada.Descripcion = quedada.Descripcion; 
+        $scope.Quedada.Locacion = quedada.Locacion;
         $scope.Quedada.IdUsuarioAlta = quedada.IdUsuarioAlta;
         $scope.Quedada.FechaAlta = quedada.FechaAlta;
         $scope.Quedada.Detalle = quedada.TituloPadre;

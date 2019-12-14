@@ -331,6 +331,54 @@ function GetQuedadas(param) {
     return resultado;
 }
 
+function GetQuedada(idParam) {
+
+    var idQuedada = idParam;
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Quedada/GetQuedada";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: { id: idQuedada },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false
+    }).done(function (result) {
+        resultado = JSON.parse(JSON.stringify(result));
+    }
+    );
+
+    return resultado;
+}
+
+function GuardarQuedada(param) {
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Quedada/Guardar";
+    var dataParam = JSON.stringify(param);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: dataParam,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
+
+
 function GetDatosSesion() {
 
      

@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-sm-6 TemaForo" ng-repeat="quedada in Quedadas" ng-click="GetDetalleQuedada(quedada.Id)">
+            <div class="col-xs-12 col-sm-6 TemaForo" ng-repeat="quedada in Quedadas" ng-click="GetQuedada(quedada.Id)">
                 <div class="row backGroundForo1">
                     <div class="col-xs-1">
                         <input type="checkbox" ng-model="quedada.Seleccionado" />
@@ -21,15 +21,14 @@
                     </div>
                 </div>
                 <div class="row cuerpoTemaForo">
-                    <div class="col-xs-6"><h4> Autor: {{quedada.Autor}} </h4></div>
-                    <div class="col-xs-6"><h4> Creado: {{quedada.FechaAlta}}</h4></div>
-                    @*</div>
-                        <div class="row">*@
-                    <div class="col-xs-6">
-                        <h5>  Ultima Resp: {{quedada.UltimoAutor }} </h5>
+                    <div class="col-xs-2">
+                        <img alt="persona" ng-src="{{(quedada.RutaFotoPrincipal != null && quedada.RutaFotoPrincipal != '') ? quedada.RutaFotoPrincipal : '/Content/images/person.jpg'  }}" ng-click="MostrarUsuario(mensajeForo.IdUsuarioAlta)" class="photoLogado" />
                     </div>
-                    <div class="col-xs-6">
-                        <h5> Fecha: {{quedada.FechaUltimaContestacion }}</h5>
+                    <div class="col-xs-10">
+                        <h2>{{quedada.Titulo}}</h2>
+                    </div>
+                    <div class="col-xs-10">
+                        <h2>{{quedada.Resumen}}</h2>
                     </div>
                 </div>
             </div>
