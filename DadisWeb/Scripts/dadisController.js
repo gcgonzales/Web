@@ -545,17 +545,27 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         $scope.Quedada.Locacion = quedada.Locacion;
         $scope.Quedada.IdUsuarioAlta = quedada.IdUsuarioAlta;
         $scope.Quedada.FechaAlta = quedada.FechaAlta;
-        $scope.Quedada.Detalle = quedada.TituloPadre;
+        $scope.Quedada.Detalle = quedada.Detalle;
+        $scope.Quedada.MaximoAsistentes = quedada.MaximoAsistentes;
+        $scope.Quedada.FechaEvento = quedada.FechaEvento.substring(0, 10);
+        $scope.Quedada.Apuntados = quedada.Apuntados;
 
-        if ($scope.quedada.IdUsuarioAlta === $scope.DatosUsuarioLogado.Id) {
+        var date = new Date(quedada.FechaEvento);
+        $scope.Quedada.HoraEvento = date.getHours();
+        $scope.Quedada.MinutoEvento = date.getMinutes();
+
+        if ($scope.Quedada.IdUsuarioAlta === $scope.DatosUsuarioLogado.Id) {
             $scope.EdicionQuedada = true;
         }
+
+        $scope.Quedada.Fotografias = quedada.Fotografias;
 
         $('#divDetalleQuedada').modal('show');
     };
 
 
     $scope.ActivarEdicionQuedada = function (id) {
+
         $.each($scope.Hilo, function (x, y) {
             if (y.Id === id) {
                 $scope.Quedada = y;
