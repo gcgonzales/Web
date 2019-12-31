@@ -1,6 +1,14 @@
-﻿body {
+﻿
+@font-face {
+    font-family: 'Watatzuki';
+    src: url('../fonts/WatatsukiTechSans-GOJxA.ttf');
+}
+
+body {
+    font-family: Watatzuki;
     padding-top: 70px;
     padding-bottom: 20px;
+    font-size: 18px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -39,7 +47,7 @@ textarea {
 }
 
 .marginTopBody {
-margin-top:70px;
+margin-top:60px;
 }
 
 .alignLeft {
@@ -179,6 +187,13 @@ margin-right: auto !important;
     height: 380px;
 }
 
+.modalAviso {
+    padding:30px;
+    width: 50%;
+    height: 240px;
+    margin-top:50px !important;
+}
+
 
 
 .btn {
@@ -226,6 +241,10 @@ margin:10px;
     width: 80%;
 }
 
+.photoThumb {
+    width: 50%;
+}
+
 .photo {
 width:95%;
 height:auto;
@@ -261,7 +280,6 @@ margin-top:50px;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Source Sans Pro', sans-serif;
     font-weight: 300;
     margin: 0;
 }
@@ -322,6 +340,48 @@ background-color:white !important;
     padding-bottom: 10px;
 }
 
+.cuerpoChat {
+    padding:15px;
+    margin:0px !important;
+}
+
+.cuerpoChat .row {
+    margin: 0px !important;
+}
+
+.chatMe {
+float:left;
+background-color: #f8f8f8;
+}
+
+.chatOther {
+    float: right;
+    background-color: #bfe3ff;
+}
+
+.chatItem {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius:10px;
+    padding:5px;
+}
+
+    .chatItem h3 {
+        font-size: 16px;
+        margin-top: 1px !important;
+        margin-bottom: 1px !important;
+        padding-top: 1px !important;
+        padding-bottom: 1px !important;
+    }
+
+    .chatItem h4 {
+        font-size: 8px;
+        margin-top: 1px !important;
+        margin-bottom: 1px !important;
+        padding-top: 1px !important;
+        padding-bottom: 1px !important;
+    }
+
 .inputNoBorder {
     /*border-color: inherit;
     -webkit-box-shadow: none;
@@ -374,4 +434,28 @@ margin-top: 20px;
 
 .inputTituloForo {
     color: black;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid blue;
+    border-right: 16px solid green;
+    border-bottom: 16px solid red;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg);}
+    100% {-webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
 }

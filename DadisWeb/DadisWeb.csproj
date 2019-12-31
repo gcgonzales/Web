@@ -129,6 +129,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccesoriosController.cs" />
+    <Compile Include="Controllers\ContratacionController.cs" />
     <Compile Include="Controllers\ForoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\QuedadaController.cs" />
@@ -166,6 +168,7 @@
     <Content Include="Scripts\angular-route.min.js.map" />
     <Content Include="Scripts\date.js" />
     <Content Include="Scripts\date.js.map" />
+    <Content Include="fonts\WatatsukiTechSans-GOJxA.ttf" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\cloudinary\canvas-to-blob.min.js" />
     <Content Include="Scripts\cloudinary\jquery.cloudinary.js" />
@@ -216,6 +219,11 @@
     <Content Include="Views\Foro\_MensajeForo.cshtml" />
     <Content Include="Views\Shared\_ReiniciarPassword.cshtml" />
     <Content Include="Views\Quedada\_DetalleQuedada.cshtml" />
+    <Content Include="Views\Shared\_Mensaje.cshtml" />
+    <Content Include="Views\Contratacion\Index.cshtml" />
+    <Content Include="Views\Accesorios\Index.cshtml" />
+    <Content Include="Views\Accesorios\_DetalleAccesorio.cshtml" />
+    <Content Include="Views\Contratacion\_DetalleContratacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

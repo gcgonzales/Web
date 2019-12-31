@@ -1,12 +1,11 @@
-﻿
-<div id="divListaQuedadas" class="marginTopBody">
+﻿<div id="divListaAccesorios" class="marginTopBody">
     @*<div datepicker datepicker-class="test-custom-class" date-min-limit="2016/02/28" date-max-limit="2016/03/03" date-typer="true">
-        <input ng-model="Quedada.FechaAlta" type="text" class="angular-datepicker-input" />
-    </div>*@
+            <input ng-model="Quedada.FechaAlta" type="text" class="angular-datepicker-input" />
+        </div>*@
     <div class="container" ng-init="BuscarQuedadas()">
         <div class="row subrayado">
             <div class="col-xs-12">
-                <h1 class="col-xs-12 col-sm-6 alignLeft">Quedadas</h1>
+                <h1 class="col-xs-12 col-sm-6 alignLeft">Accesorios</h1>
                 <div class="btn btn-danger alignRight" ng-if="DatosUsuarioLogado!=null && DatosUsuarioLogado!=undefined && DatosUsuarioLogado.Id != 0" ng-click="BajaSeleccionadosQuedada()">Baja a seleccionados</div>
                 <div class="btn btn-default alignRight" ng-if="DatosUsuarioLogado!=null && DatosUsuarioLogado!=undefined && DatosUsuarioLogado.Id != 0" ng-click="AltaQuedada()">Nueva quedada</div>
             </div>
@@ -36,4 +35,4 @@
 
 </div>
 
-@Html.Partial("_DetalleQuedada")
+@Html.Partial("_DetalleAccesorio")

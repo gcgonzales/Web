@@ -100,6 +100,14 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
     $scope.IrAQuedadas = function () {
         $window.location.href = '/Quedada/Index';
     };
+
+    $scope.IrAContrataciones = function () {
+        $window.location.href = '/Contratacion/Index';
+    };
+
+    $scope.IrAAccesorios = function () {
+        $window.location.href = '/Accesorios/Index';
+    };
    
     $scope.MostrarUsuario = function (id) {
 
@@ -117,6 +125,9 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         $scope.DatosUsuario.Fotografias = [];
         $scope.DatosUsuario.Fotografias = usuario.Fotografias;
 
+        $scope.Mensajes = [];
+        $scope.Mensajes = GetMensajesUsuario($scope.DatosUsuarioLogado.Id, $scope.DatosUsuario.Id);
+
         if (usuario.Fotografias !== undefined && usuario.Fotografias !== null && usuario.Fotografias.Length > 0)
         {
             $scope.DatosUsuario.RutaImagenPrincipal = usuario.Fotografias[0].RutaFoto; 
@@ -125,8 +136,22 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         if ($scope.DatosUsuario.Id === $scope.DatosUsuarioLogado.Id) {
             $scope.Edicion = true;
         }
+
         
         $('#divUsuario').modal('show');
+    };
+
+    $scope.EnviarMensajeUsuario = function () {
+
+        var mensajeInput = {};
+        mensajeInput.Mensaje = $scope.DatosUsuario.MensajeChat;
+        mensajeInput.IdUsuarioRemitente = $scope.DatosUsuarioLogado.Id;
+        mensajeInput.IdUsuarioReceptor = $scope.DatosUsuario.Id;
+
+        EnviarMensajeUsuario(mensajeInput);
+
+        $scope.Mensajes = GetMensajesUsuario($scope.DatosUsuarioLogado.Id, $scope.DatosUsuario.Id);
+        $scope.DatosUsuario.MensajeChat = '';
     };
 
     $scope.MostrarUsuarioEdicion = function (id) {
@@ -145,9 +170,7 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         $scope.DatosUsuario.Email = usuario.Email;
         $scope.DatosUsuario.Login = usuario.Login;
         $scope.DatosUsuario.Fotografias = usuario.Fotografias;
-
-       
-
+        
         $('#divUsuario').modal('show');
     };
 
@@ -181,6 +204,7 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         $scope.DatosUsuarioLogado = usuarioLogin;
 
         if (usuarioLogin.Id !== 0) {
+            $scope.MostrarAvisoAutocierre("Autenticado correctamente.");
             GuardarDatosSesion($scope.DatosUsuarioLogado.Id, password, $scope.DatosUsuarioLogado.Nombres, $scope.DatosUsuarioLogado.PerfilKey, $scope.DatosUsuarioLogado.Token);
             $scope.CerrarLogin();
         }
@@ -213,7 +237,9 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
     $scope.CerrarSesion = function () {
         $scope.DatosUsuarioLogado = {};
         $scope.DatosUsuarioLogado.Id = 0;
-        GuardarDatosSesion(0, "","","","");
+        
+        GuardarDatosSesion(0, "", "", "", "");
+        $scope.MostrarAvisoAutocierre("Sesión cerrada. Hasta pronto.");
     };
 
     $scope.Registrarse = function () {
@@ -507,6 +533,27 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         $scope.BuscarQuedadas();
     };
 
+    $scope.GuardarApunteQuedada = function () {
+
+        var apunte = {};
+
+        $scope.Quedada.IdUsuarioAlta = $scope.DatosUsuarioLogado.Id;
+
+        apunte.IdQuedada = $scope.Quedada.Id;
+        apunte.IdUsuario = $scope.DatosUsuarioLogado.Id;
+        apunte.ApuntadosAdultos = $scope.Quedada.ApuntadosAdultos;
+        apunte.ApuntadosNinos = $scope.Quedada.ApuntadosNinos;
+
+        GuardarApunteQuedada(apunte);
+
+        $scope.GetQuedada($scope.Quedada.Id);
+
+//        $('#divDetalleQuedada').modal('hide');
+  //      $scope.EdicionQuedada = false;
+    //    $scope.BuscarQuedadas();
+    };
+
+
     $scope.AltaQuedada = function () {
         $scope.Quedada = {};
         $scope.Quedada.Id = 0;
@@ -594,10 +641,20 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
     };
 
 
+    $scope.MostrarAvisoAutocierre = function (mensaje) {
+        $scope.DatosUsuario.MensajeAviso = mensaje;
+        $('#divAvisoAutocierre').modal('show');
+
+        $timeout(function () { $scope.CerrarAvisoAutocierre(); }, 2000);
+    };
+
     $scope.CerrarQuedada = function () {
         $('#divDetalleQuedada').modal('hide');
     };
 
+    $scope.CerrarAvisoAutocierre = function () {
+        $('#divAvisoAutocierre').modal('hide');
+    }; 
 
     $scope.AdminKey = function () {
         var resultado = GetAdminKey();
