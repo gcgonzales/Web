@@ -94,19 +94,19 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
     $scope.EdicionQuedada = false;
 
     $scope.IrAForo = function () {
-        $window.location.href = '/Foro/Index';
+        $window.location.href = 'Foro/Index';
     };
 
     $scope.IrAQuedadas = function () {
-        $window.location.href = '/Quedada/Index';
+        $window.location.href = 'Quedada/Index';
     };
 
     $scope.IrAContrataciones = function () {
-        $window.location.href = '/Contratacion/Index';
+        $window.location.href = 'Contratacion/Index';
     };
 
     $scope.IrAAccesorios = function () {
-        $window.location.href = '/Accesorios/Index';
+        $window.location.href = 'Accesorios/Index';
     };
    
     $scope.MostrarUsuario = function (id) {
@@ -316,11 +316,7 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         $scope.MensajeForo.IdUsuarioAlta = $scope.DatosUsuarioLogado.Id;
         $scope.MensajeForo.IdMensajePadre = id;
         $scope.MensajeForo.Id = 0;
-
         
-
-     
-
         $('#divMensajeForo').modal('show');
 
         //$timeout(function () { $('textarea').autoResize(); }, 3000);
@@ -505,6 +501,29 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         $scope.Quedada.Fotografias.push(foto);
     };
 
+    $scope.SubirFotoContratacion = function (IdContratacion) {
+        var subidaFoto = SubirFoto();
+
+        var foto = {};
+        foto.Id = 0;
+        foto.IdContratacion = IdContratacion;
+        foto.RutaFoto = subidaFoto.Uri;
+        foto.Baja = false;
+
+        $scope.Contratacion.Fotografias.push(foto);
+    };
+
+    $scope.SubirFotoOferta = function (IdOferta) {
+        var subidaFoto = SubirFoto();
+
+        var foto = {};
+        foto.Id = 0;
+        foto.IdOFerta = IdOferta;
+        foto.RutaFoto = subidaFoto.Uri;
+        foto.Baja = false;
+
+        $scope.Oferta.Fotografias.push(foto);
+    };
 
     $scope.BuscarQuedadas = function () {
 
@@ -522,6 +541,37 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
 
     };
 
+    $scope.BuscarContrataciones = function () {
+
+        var parametro = $scope.ParametroBusqueda;
+
+        if (parametro === null || parametro === undefined) { parametro = ""; }
+
+        var contrataciones = GetContrataciones(parametro);
+
+        $scope.Contrataciones = [];
+
+        $.each(contrataciones, function (x, y) {
+            $scope.Contrataciones.push(y);
+        });
+
+    };
+
+    $scope.BuscarOfertas = function () {
+
+        var parametro = $scope.ParametroBusqueda;
+
+        if (parametro === null || parametro === undefined) { parametro = ""; }
+
+        var ofertas = GetOfertas(parametro);
+
+        $scope.Ofertas = [];
+
+        $.each(ofertas, function (x, y) {
+            $scope.Ofertas.push(y);
+        });
+
+    };
 
     $scope.GuardarQuedada = function () {
 
@@ -531,6 +581,26 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         $('#divDetalleQuedada').modal('hide');
         $scope.EdicionQuedada = false;
         $scope.BuscarQuedadas();
+    };
+
+    $scope.GuardarContratacion = function () {
+
+        $scope.Contratacion.IdUsuarioAlta = $scope.DatosUsuarioLogado.Id;
+        GuardarContratacion($scope.Contratacion);
+
+        $('#divDetalleContratacion').modal('hide');
+        $scope.EdicionContratacion = false;
+        $scope.BuscarContrataciones();
+    };
+
+    $scope.GuardarOferta = function () {
+
+        $scope.Oferta.IdUsuarioAlta = $scope.DatosUsuarioLogado.Id;
+        GuardarOferta($scope.Oferta);
+
+        $('#divDetalleOferta').modal('hide');
+        $scope.EdicionOferta = false;
+        $scope.BuscarOfertas();
     };
 
     $scope.GuardarApunteQuedada = function () {
@@ -548,9 +618,24 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
 
         $scope.GetQuedada($scope.Quedada.Id);
 
-//        $('#divDetalleQuedada').modal('hide');
-  //      $scope.EdicionQuedada = false;
-    //    $scope.BuscarQuedadas();
+ 
+    };
+
+    $scope.GuardarApunteContratacion = function () {
+
+        var apunte = {};
+
+        $scope.Contratacion.IdUsuarioAlta = $scope.DatosUsuarioLogado.Id;
+
+        apunte.IdQuedada = $scope.Contratacion.Id;
+        apunte.IdUsuario = $scope.DatosUsuarioLogado.Id;
+        apunte.ApuntadosNinos = $scope.Contratacion.ApuntadosNinos;
+
+        GuardarApunteQuedada(apunte);
+
+        $scope.GetContratacion($scope.Contratacion.Id);
+
+
     };
 
 
@@ -563,6 +648,29 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         $scope.Quedada.RespondiendoQuedada = true;
 
         $('#divDetalleQuedada').modal('show');
+    };
+
+
+    $scope.AltaContratacion = function () {
+        $scope.Contratacion = {};
+        $scope.Contratacion.Id = 0;
+        $scope.Contratacion.Fotografias = [];
+
+        $scope.EdicionContratacion = true;
+        
+
+        $('#divDetalleContratacion').modal('show');
+    };
+
+    $scope.AltaOferta = function () {
+        $scope.Oferta = {};
+        $scope.Oferta.Id = 0;
+        $scope.Oferta.Fotografias = [];
+
+        $scope.EdicionOferta = true;
+
+
+        $('#divDetalleOferta').modal('show');
     };
 
     $scope.BajaSeleccionadosQuedada = function () {
@@ -578,6 +686,36 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
 
         BajaQuedadas(ids);
         $scope.BuscarQuedadas();
+    };
+
+    $scope.BajaSeleccionadosContratacion = function () {
+
+        var contrataciones = $scope.Contrataciones;
+        var ids = [];
+
+        $.each(contrataciones, function (x, y) {
+            if (y.Seleccionado === true) {
+                ids.push(y.Id);
+            }
+        });
+
+        BajaContrataciones(ids);
+        $scope.BuscarContrataciones();
+    };
+
+    $scope.BajaSeleccionadosOferta = function () {
+
+        var ofertas = $scope.Ofertas;
+        var ids = [];
+
+        $.each(ofertas, function (x, y) {
+            if (y.Seleccionado === true) {
+                ids.push(y.Id);
+            }
+        });
+
+        BajaOfertas(ids);
+        $scope.BuscarOfertas();
     };
 
     $scope.GetQuedada = function (id) {
@@ -610,6 +748,58 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         $('#divDetalleQuedada').modal('show');
     };
 
+    $scope.GetContratacion = function (id) {
+
+        var contratacion = GetContratacion(id);
+
+        $scope.Contratacion = {};
+        $scope.Contratacion.Id = contratacion.Id;
+        $scope.Contratacion.Titulo = contratacion.Titulo;
+        $scope.Contratacion.Descripcion = contratacion.Descripcion;
+        $scope.Contratacion.Locacion = contratacion.Locacion;
+        $scope.Contratacion.IdUsuarioAlta = contratacion.IdUsuarioAlta;
+        $scope.Contratacion.FechaAlta = contratacion.FechaAlta;
+        $scope.Contratacion.Detalle = contratacion.Detalle;
+        $scope.Contratacion.MaximoHijos = contratacion.MaximoHijos;
+        $scope.Contratacion.PrecioTotal = contratacion.PrecioTotal;
+        $scope.Contratacion.FechaContratacion = contratacion.FechaContratacion.substring(0, 10);
+        $scope.Contratacion.Apuntados = contratacion.Apuntados;
+
+        var date = new Date(contratacion.FechaContratacion);
+        $scope.Contratacion.HoraContratacion = date.getHours();
+        $scope.Contratacion.MinutoContratacion = date.getMinutes();
+
+        if ($scope.Contratacion.UsuarioAlta === $scope.DatosUsuarioLogado.Id) {
+            $scope.EdicionContratacion = true;
+        }
+
+        $scope.Contratacion.Fotografias = contratacion.Fotografias;
+
+        $('#divDetalleContratacion').modal('show');
+    };
+
+    $scope.GetOferta = function (id) {
+
+        var oferta = GetOferta(id);
+
+        $scope.Oferta = {};
+        $scope.Oferta.Id = oferta.Id;
+        $scope.Oferta.Titulo = oferta.Titulo;
+        $scope.Oferta.Descripcion = oferta.Descripcion;
+        $scope.Oferta.Locacion = oferta.Locacion;
+        $scope.Oferta.UsuarioAlta = oferta.UsuarioAlta;
+        $scope.Oferta.FechaAlta = oferta.FechaAlta;
+        $scope.Oferta.Resumen = oferta.Resumen;
+        $scope.Oferta.Precio = oferta.Precio;
+         
+        if ($scope.Oferta.UsuarioAlta === $scope.DatosUsuarioLogado.Id) {
+            $scope.EdicionOferta = true;
+        }
+
+        $scope.Oferta.Fotografias = oferta.Fotografias;
+
+        $('#divDetalleOferta').modal('show');
+    };
 
     $scope.ActivarEdicionQuedada = function (id) {
 
@@ -650,6 +840,14 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
 
     $scope.CerrarQuedada = function () {
         $('#divDetalleQuedada').modal('hide');
+    };
+
+    $scope.CerrarContratacion = function () {
+        $('#divDetalleContratacion').modal('hide');
+    };
+
+    $scope.CerrarOFerta = function () {
+        $('#divDetalleOferta').modal('hide');
     };
 
     $scope.CerrarAvisoAutocierre = function () {

@@ -82,7 +82,7 @@ function ReiniciarPassword(emailParam) {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         resultado = JSON.parse(JSON.stringify(result));
@@ -107,7 +107,7 @@ function GuardarUsuario(param) {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
@@ -133,7 +133,57 @@ function BajaUsuarios(arrayIdsUsuarios) {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
+
+function BajaQuedadas(arrayIdsQuedadas) {
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Quedada/BajaQuedada";
+    var dataParam = JSON.stringify(arrayIdsQuedadas);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: dataParam,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            //alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
+
+function BajaContrataciones(arrayIdsContrataciones) {
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Contratacion/BajaContratacion";
+    var dataParam = JSON.stringify(arrayIdsContrataciones);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: dataParam,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
@@ -145,13 +195,38 @@ function BajaUsuarios(arrayIdsUsuarios) {
 }
 
 
+function BajaOfertas(arrayIdsOfertas) {
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Oferta/BajaOferta";
+    var dataParam = JSON.stringify(arrayIdsOfertas);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: dataParam,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            //alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
+
 function GetUrlBase() {
 
     var resultado = '';
 
     $.ajax({
         type: "GET",
-        url: "/Home/GetUrlBase",
+        url: "Home/GetUrlBase",
         dataType: 'json',
       
         async: false
@@ -245,7 +320,7 @@ function GuardarMensajeForo(param) {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
@@ -270,7 +345,7 @@ function BajaMensajesForo(arrayIdsMensajes) {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
@@ -297,7 +372,7 @@ function GuardarDatosSesion(idParam, passwordParam, nombre, perfilkey, token) {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
@@ -331,6 +406,50 @@ function GetQuedadas(param) {
     return resultado;
 }
 
+function GetContrataciones(param) {
+
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Contratacion/GetContrataciones";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: { textoBusqueda: param },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false
+    }).done(function (result) {
+        resultado = JSON.parse(JSON.stringify(result));
+    }
+    );
+
+    return resultado;
+}
+
+function GetOfertas(param) {
+
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Oferta/GetOfertas";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: { textoBusqueda: param },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false
+    }).done(function (result) {
+        resultado = JSON.parse(JSON.stringify(result));
+    }
+    );
+
+    return resultado;
+}
+
 function GetQuedada(idParam) {
 
     var idQuedada = idParam;
@@ -342,6 +461,50 @@ function GetQuedada(idParam) {
         type: "GET",
         url: url,
         data: { id: idQuedada },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false
+    }).done(function (result) {
+        resultado = JSON.parse(JSON.stringify(result));
+    }
+    );
+
+    return resultado;
+}
+
+function GetContratacion(idParam) {
+
+    var idContratacion = idParam;
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Contratacion/GetContratacion";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: { id: idContratacion },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false
+    }).done(function (result) {
+        resultado = JSON.parse(JSON.stringify(result));
+    }
+    );
+
+    return resultado;
+}
+
+function GetOferta(idParam) {
+
+    var idOferta = idParam;
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Oferta/GetOferta";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: { id: idOferta },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false
@@ -388,7 +551,7 @@ function GuardarQuedada(param) {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
@@ -399,7 +562,55 @@ function GuardarQuedada(param) {
     return resultado;
 }
 
+function GuardarContratacion(param) {
 
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Contratacion/Guardar";
+    var dataParam = JSON.stringify(param);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: dataParam,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            //alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
+
+function GuardarOferta(param) {
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Oferta/Guardar";
+    var dataParam = JSON.stringify(param);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: dataParam,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            //alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
 
 function EnviarMensajeUsuario(param) {
 
@@ -415,7 +626,7 @@ function EnviarMensajeUsuario(param) {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
@@ -439,7 +650,7 @@ function GuardarApunteQuedada(param) {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
@@ -449,6 +660,32 @@ function GuardarApunteQuedada(param) {
 
     return resultado;
 }
+
+function GuardarApunteContratacion(param) {
+
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Quedada/Apuntarse";
+    var dataParam = JSON.stringify(param);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: dataParam,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            //alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
+
 
 function GuardarDesapunteQuedada(param) {
 
@@ -464,7 +701,7 @@ function GuardarDesapunteQuedada(param) {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
@@ -475,7 +712,30 @@ function GuardarDesapunteQuedada(param) {
     return resultado;
 }
 
+function GuardarDesapunteContratacion(param) {
 
+    var urlBase = GetUrlBase();
+    var resultado = {};
+    url = urlBase + "Contratacion/Desapuntarse";
+    var dataParam = JSON.stringify(param);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: dataParam,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        error: function (request, status, error) {
+            //alert(request.responseText);
+        }
+    }).done(function (result) {
+        //resultado = JSON.parse(JSON.stringify(result));
+
+    }
+    ).fail(function () { });
+
+    return resultado;
+}
 function GetDatosSesion() {
 
      
@@ -490,7 +750,7 @@ function GetDatosSesion() {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
@@ -516,7 +776,7 @@ function SubirFoto() {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
@@ -541,7 +801,7 @@ function GetAdminKey() {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            alert(request.responseText);
+            //alert(request.responseText);
         }
     }).done(function (result) {
         //resultado = JSON.parse(JSON.stringify(result));
