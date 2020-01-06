@@ -111,6 +111,8 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
    
     $scope.MostrarUsuario = function (id) {
 
+       
+
         var usuario = GetUsuario(id);
 
         $scope.DatosUsuario = {};
@@ -136,8 +138,8 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
         if ($scope.DatosUsuario.Id === $scope.DatosUsuarioLogado.Id) {
             $scope.Edicion = true;
         }
-
-        
+       // $scope.MostrarAvisoAutocierre("Obteniendo datos de usuario usuario");
+        //$scope.MostrarAvisoAutocierre("Mostrando usuario");
         $('#divUsuario').modal('show');
     };
 
@@ -798,6 +800,10 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
 
         $scope.Oferta.Fotografias = oferta.Fotografias;
 
+        $scope.Mensajes = [];
+        $scope.Mensajes = GetMensajesUsuario($scope.DatosUsuarioLogado.Id, $scope.Oferta.UsuarioAlta);
+        $scope.DatosUsuario.MensajeChat = '';
+
         $('#divDetalleOferta').modal('show');
     };
 
@@ -861,15 +867,17 @@ app.controller("daddiController", function ($scope, $window, $timeout) {
 
 
     $scope.Editable = function () {
-        var editable = false;
-        if ($scope.DatosUsuarioLogado !== undefined && $scope.DatosUsuarioLogado.PerfilKey === $scope.AdminKey()) {
-            editable = true;
-        }
-        else if ($scope.DatosUsuario !== undefined && $scope.DatosUsuarioLogado.Id === $scope.DatosUsuario.Id) {
-            editable = true;
-        }
+        //var editable = false;
+        //if ($scope.DatosUsuarioLogado !== undefined && $scope.DatosUsuarioLogado.PerfilKey === $scope.AdminKey()) {
+        //    editable = true;
+        //}
+        //else if ($scope.DatosUsuario !== undefined && $scope.DatosUsuarioLogado.Id === $scope.DatosUsuario.Id) {
+        //    editable = true;
+        //}
 
-        return editable;
+        //return editable;
+
+        return true;
     };
 
     if ($scope.ParametroBusqueda === null || $scope.ParametroBusqueda === undefined || $scope.ParametroBusqueda === "") {

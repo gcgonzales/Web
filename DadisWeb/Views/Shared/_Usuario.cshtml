@@ -44,11 +44,12 @@
                 <div class="col-xs-8"><input type="text" ng-readonly="!Editable()" ng-model="DatosUsuario.Login" /></div>
             </div>
             <div ng-if="DatosUsuario.Id == 0" class="row">
-                <div class="col-xs-4">Crear password:</div>
+                <div class="col-xs-4">Crear pass:</div>
                 <div class="col-xs-8"><input type="password" ng-model="DatosUsuario.Password" /></div>
-                <div class="col-xs-4">Repetir password:</div>
-                <div class="col-xs-8"><input type="password" ng-readonly="!Editable()" ng-model="DatosUsuario.RepetirPassword" /></div>
-            </div>
+                </div><div ng-if="DatosUsuario.Id == 0" class="row">
+    <div class="col-xs-4">Repetir pass:</div>
+    <div class="col-xs-8"><input type="password" ng-readonly="!Editable()" ng-model="DatosUsuario.RepetirPassword" /></div>
+</div>
             <div class="row">
                 <div class="col-xs-4">Fotos:</div>
                 <div class="col-xs-4" ng-if="Editable()==true">

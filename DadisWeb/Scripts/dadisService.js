@@ -107,11 +107,9 @@ function GuardarUsuario(param) {
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            //alert(request.responseText);
+           
         }
     }).done(function (result) {
-        //resultado = JSON.parse(JSON.stringify(result));
-
     }
     ).fail(function () { });
 
@@ -226,7 +224,7 @@ function GetUrlBase() {
 
     $.ajax({
         type: "GET",
-        url: "Home/GetUrlBase",
+        url: "/Home/GetUrlBase",
         dataType: 'json',
       
         async: false
@@ -762,28 +760,23 @@ function GetDatosSesion() {
 }
 
 function SubirFoto() {
-   
     var resultado = {};
     var url = "/Home/UploadPhoto";
-   // var formdata = new FormData($('formUsuarioPhoto').get(0));
     var formData = new FormData($('#formUsuarioPhoto')[0]);
     $.ajax({
         type: "POST",
         url: url,
-        data: formData, // { fileInput: formdata }, // formdata, // JSON.stringify({rutaFoto: localPath}),
+        data: formData,  
         contentType: false,
         processData: false,
         dataType: "json",
         async: false,
         error: function (request, status, error) {
-            //alert(request.responseText);
         }
     }).done(function (result) {
-        //resultado = JSON.parse(JSON.stringify(result));
         resultado = result;
     }
     ).fail(function () { });
-
     return resultado;
 }
 

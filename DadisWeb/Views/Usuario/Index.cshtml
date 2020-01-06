@@ -13,13 +13,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-sm-6" ng-repeat="usuario in Usuarios">
+            <div class="col-xs-12 col-sm-6 cuerpoTemaForo" ng-repeat="usuario in Usuarios">
                 <div class="row">
                     <div class="col-xs-1 filaListaUsuario">
                         <input type="checkbox" ng-model="usuario.Seleccionado" />
                     </div>
                     <div class="col-xs-2 clickable" ng-click="MostrarUsuario(usuario.Id)">
-                        <img alt="persona" src="~/Content/images/person.jpg" class="photo" />
+                        <img alt="persona" ng-src="{{(usuario.Fotografias != null && usuario.Fotografias.length > 0) ? usuario.Fotografias[0].RutaFoto : '/Content/images/person.jpg'  }}" class="photoLogado" />
                     </div>
                     <div ng-click="MostrarUsuarioEdicion(usuario.Id)" class="col-xs-6 filaListaUsuario clickable">{{usuario.Nombres}} &nbsp; {{usuario.ApellidoPrimero}} &nbsp; {{usuario.ApellidoSegundo}}</div>
                 </div>
